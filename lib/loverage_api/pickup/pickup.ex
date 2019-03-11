@@ -252,11 +252,12 @@ defmodule Loverage.Pickup do
             inner join posts on featureds.post_id = posts.id
             where posts.sex = '" <> sex <> "' and
                   not exists(
-                    select 1 from posts As tmp
+                    select tmp.id from posts As tmp
                     where posts.sex = tmp.sex and
                     posts.reviews_amount < tmp.reviews_amount
                     )
-            order by featureds.updated_at desc"
+            order by featureds.updated_at desc
+            limit 1"
     post_id_list = EctoUtil.query(Repo, sql)
     Enum.at(post_id_list, 0)
   end
