@@ -10,7 +10,7 @@ defmodule Loverage.Discussion.Review do
     field :age, :string           #回答者の年齢（e_10s/l_10s/e_20s/l_20s/e_30s/l_30s/e_40s/l_40s/e_50s/l_50s/e_60s/l_60s）
     field :sex, :string           #回答者の性別（m/f/o）
     field :selected_opt, :string  #回答した選択肢(opt1/opt2)
-    timestamps()
+    timestamps(type: utc_datetime)
 
     # リレーション設定
     belongs_to :post, Loverage.Discussion.Post
