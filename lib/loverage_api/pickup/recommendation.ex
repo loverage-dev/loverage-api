@@ -9,7 +9,7 @@ defmodule Loverage.Pickup.Recommendation do
 
   schema "recommendations" do
     field :keyword, :string
-    timestamps(type: utc_datetime)
+    timestamps(type: :utc_datetime)
 
     # リレーション設定
     belongs_to :posts, Loverage.Discussion.Post, foreign_key: :post_id

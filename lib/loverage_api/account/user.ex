@@ -8,7 +8,7 @@ defmodule Loverage.Account.User do
     field :is_active, :boolean, default: false
     field :password, :string
 
-    timestamps(type: utc_datetime)
+    timestamps(type: :utc_datetime)
   end
 
   @doc false

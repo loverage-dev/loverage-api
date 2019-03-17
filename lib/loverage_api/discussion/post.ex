@@ -27,7 +27,7 @@ defmodule Loverage.Discussion.Post do
     has_one :recommendations, Loverage.Pickup.Recommendation
     has_one :featureds, Loverage.Pickup.Featured
 
-    timestamps(type: utc_datetime)
+    timestamps(type: :utc_datetime)
 
   end
 
