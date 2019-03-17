@@ -5,7 +5,7 @@ defmodule Loverage.Repo.Migrations.CreateFeatureds do
     create table(:featureds) do
       add :keyword, :string
 
-      timestamps()
+      timestamps(type: :timestamptz)
     end
 
   end

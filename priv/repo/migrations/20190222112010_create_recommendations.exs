@@ -5,7 +5,7 @@ defmodule Loverage.Repo.Migrations.CreateRecommendations do
     create table(:recommendations) do
       add :keyword, :string
 
-      timestamps()
+      timestamps(type: :timestamptz)
     end
 
   end

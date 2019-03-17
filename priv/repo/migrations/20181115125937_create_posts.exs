@@ -9,7 +9,7 @@ defmodule Loverage.Repo.Migrations.CreatePosts do
       add :opt1, :string
       add :opt2, :string
 
-      timestamps()
+      timestamps(type: :timestamptz)
     end
 
   end

@@ -7,7 +7,7 @@ defmodule Loverage.Repo.Migrations.CreateUsers do
       add :password, :string
       add :is_active, :boolean, default: false, null: false
 
-      timestamps()
+      timestamps(type: :timestamptz)
     end
 
     create unique_index(:users, [:email])
