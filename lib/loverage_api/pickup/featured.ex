@@ -8,7 +8,7 @@ defmodule Loverage.Pickup.Featured do
 
   schema "featureds" do
     field :keyword, :string
-    timestamps(type: :timestamptz)
+    timestamps()
 
     # リレーション設定
     belongs_to :posts, Loverage.Discussion.Post, foreign_key: :post_id

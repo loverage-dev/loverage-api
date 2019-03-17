@@ -8,7 +8,7 @@ defmodule Loverage.Pickup.HotTopic do
 
   schema "hottopics" do
     field :keyword, :string
-    timestamps(type: :timestamptz)
+    timestamps()
 
     # リレーション設定
     belongs_to :posts, Loverage.Discussion.Post, foreign_key: :post_id
