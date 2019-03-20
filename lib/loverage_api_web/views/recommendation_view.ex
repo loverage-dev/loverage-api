@@ -39,7 +39,7 @@ defmodule LoverageWeb.RecommendationView do
       user_name: recommendation.posts.name,
       user_age: recommendation.posts.age,
       user_sex: recommendation.posts.sex,
-      img_tag: recommendation.img_tag
+      img_tag: recommendation.posts.img_tag
     }
   end
 

@@ -60,7 +60,7 @@ defmodule LoverageWeb.HotTopicView do
         votes_amount: hottopic.posts.reviews_amount,
         created_at: hottopic.posts.inserted_at,
         updated_at: hottopic.posts.updated_at,
-        img_tag: hottopic.img_tag
+        img_tag: hottopic.posts.img_tag
       },
       user: %{
         name: hottopic.posts.name,

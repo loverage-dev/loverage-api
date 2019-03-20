@@ -60,7 +60,7 @@ defmodule LoverageWeb.FeaturedView do
         votes_amount: featured.posts.reviews_amount,
         created_at: featured.posts.inserted_at,
         updated_at: featured.posts.updated_at,
-        img_tag: featured.img_tag
+        img_tag: featured.posts.img_tag
       },
       user: %{
         name: featured.posts.name,
