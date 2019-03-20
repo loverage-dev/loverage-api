@@ -39,7 +39,7 @@ defmodule LoverageWeb.FeaturedView do
       user_name: featured.posts.name,
       user_age: featured.posts.age,
       user_sex: featured.posts.sex,
-      img_tag: featured.img_tag
+      img_tag: featured.posts.img_tag
     }
   end
 

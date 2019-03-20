@@ -60,7 +60,7 @@ defmodule LoverageWeb.RecommendationView do
         votes_amount: recommendation.posts.reviews_amount,
         created_at: recommendation.posts.inserted_at,
         updated_at: recommendation.posts.updated_at,
-        img_tag: recommendation.img_tag
+        img_tag: recommendation.posts.img_tag
       },
       user: %{
         name: recommendation.posts.name,

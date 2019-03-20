@@ -39,7 +39,7 @@ defmodule LoverageWeb.HotTopicView do
       user_name: hottopic.posts.name,
       user_age: hottopic.posts.age,
       user_sex: hottopic.posts.sex,
-      img_tag: hottopic.img_tag
+      img_tag: hottopic.posts.img_tag
     }
   end
 
