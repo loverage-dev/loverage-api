@@ -38,7 +38,8 @@ defmodule LoverageWeb.HotTopicView do
       updated_at: hottopic.posts.updated_at,
       user_name: hottopic.posts.name,
       user_age: hottopic.posts.age,
-      user_sex: hottopic.posts.sex
+      user_sex: hottopic.posts.sex,
+      img_tag: hottopic.img_tag
     }
   end
 
@@ -58,7 +59,8 @@ defmodule LoverageWeb.HotTopicView do
         tag_list: hottopic.posts.tag_list,
         votes_amount: hottopic.posts.reviews_amount,
         created_at: hottopic.posts.inserted_at,
-        updated_at: hottopic.posts.updated_at
+        updated_at: hottopic.posts.updated_at,
+        img_tag: hottopic.img_tag
       },
       user: %{
         name: hottopic.posts.name,

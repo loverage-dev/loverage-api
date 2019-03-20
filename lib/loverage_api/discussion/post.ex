@@ -20,6 +20,7 @@ defmodule Loverage.Discussion.Post do
     field :reviews_amount, :integer, default: 0 #投票総数
     field :img_fmt, :string, default: ""        #ファイル拡張子（画像）
     field :img_base64, :string, default: ""     #Base64文字列（画像）
+    field :img_tag, :string , default: ""       #アイキャッチ設定用タグ
 
     # リレーション設定
     has_many :reviews, Loverage.Discussion.Review
@@ -34,7 +35,7 @@ defmodule Loverage.Discussion.Post do
   @doc false
   def changeset(post, attrs) do
     post
-    |> cast(attrs, [:name, :sex, :age, :content, :opt1, :opt2, :tag_list, :category, :ref_count, :img_fmt, :img_base64])
+    |> cast(attrs, [:name, :sex, :age, :content, :opt1, :opt2, :tag_list, :category, :ref_count, :img_fmt, :img_base64, :img_tag])
     |> validate_required([:sex, :age, :content])
     |> validate_inclusion(:age, ["e_10s", "l_10s", "e_20s", "l_20s","e_30s", "l_30s","e_40s", "l_40s","e_50s", "l_50s","e_60s", "l_60s"])
     |> validate_inclusion(:sex, ["m", "f", "o"])

@@ -40,6 +40,7 @@ defmodule LoverageWeb.Router do
     post "/articles/editors_pick", RecommendationController, :create
     post "/users/sign_in", UserController, :sign_in
     get "/votes/:id", ReviewController, :show
+    post "/articles/set_eye_catching", PostController, :set_eye_catching
     # ================================================
   end
 

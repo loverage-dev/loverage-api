@@ -15,6 +15,13 @@ defmodule LoverageWeb.PostController do
     render(conn, "index.json", posts: posts)
   end
 
+  def set_eye_catching(conn,%{"post" => post_params}) do
+    %{"id" => id, "tag" => tag} = post_params
+    post = Discussion.get_post!(id)
+    with {:ok, %Post{} = post} <- Discussion.update_post(post, %{"img_tag" => tag}) do
+      render(conn, "show.json", post: post)
+    end
+  end
 
   def ranking_view(conn, posts_params) do
     rankings_view = Discussion.list_posts_ranking_view(posts_params)

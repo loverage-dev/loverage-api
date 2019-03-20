@@ -38,7 +38,8 @@ defmodule LoverageWeb.RecommendationView do
       updated_at: recommendation.posts.updated_at,
       user_name: recommendation.posts.name,
       user_age: recommendation.posts.age,
-      user_sex: recommendation.posts.sex
+      user_sex: recommendation.posts.sex,
+      img_tag: recommendation.img_tag
     }
   end
 
@@ -58,7 +59,8 @@ defmodule LoverageWeb.RecommendationView do
         tag_list: recommendation.posts.tag_list,
         votes_amount: recommendation.posts.reviews_amount,
         created_at: recommendation.posts.inserted_at,
-        updated_at: recommendation.posts.updated_at
+        updated_at: recommendation.posts.updated_at,
+        img_tag: recommendation.img_tag
       },
       user: %{
         name: recommendation.posts.name,

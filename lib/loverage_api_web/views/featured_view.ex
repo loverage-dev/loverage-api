@@ -38,7 +38,8 @@ defmodule LoverageWeb.FeaturedView do
       updated_at: featured.posts.updated_at,
       user_name: featured.posts.name,
       user_age: featured.posts.age,
-      user_sex: featured.posts.sex
+      user_sex: featured.posts.sex,
+      img_tag: featured.img_tag
     }
   end
 
@@ -58,7 +59,8 @@ defmodule LoverageWeb.FeaturedView do
         tag_list: featured.posts.tag_list,
         votes_amount: featured.posts.reviews_amount,
         created_at: featured.posts.inserted_at,
-        updated_at: featured.posts.updated_at
+        updated_at: featured.posts.updated_at,
+        img_tag: featured.img_tag
       },
       user: %{
         name: featured.posts.name,
