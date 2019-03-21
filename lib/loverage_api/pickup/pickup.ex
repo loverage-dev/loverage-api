@@ -248,16 +248,15 @@ defmodule Loverage.Pickup do
   end
 
   def fetch_big_futured_topic_for(sex) do
-    sql = "select post_id from featureds
-            inner join posts on featureds.post_id = posts.id
-            where posts.sex = '" <> sex <> "' and
-                  not exists(
-                    select tmp.id from posts As tmp
-                    where posts.sex = tmp.sex and
-                    posts.reviews_amount < tmp.reviews_amount
-                    )
-            order by featureds.updated_at desc
-            limit 1"
+    sql = "SELECT
+              foo.post_id
+            FROM
+              (featureds inner join posts on featureds.post_id = posts.id) As foo
+            where
+              foo.sex = '" <> sex <> "'
+            order by foo.reviews_amount desc
+            limit 1
+            "
     post_id_list = EctoUtil.query(Repo, sql)
     Enum.at(post_id_list, 0)
   end
