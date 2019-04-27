@@ -38,6 +38,8 @@ defmodule Loverage.PickupTest do
     test "get_hot_topic!/1 returns the hot_topic with given id" do
       post = post_setup()
       hot_topic = hot_topic_fixture(%{post_id: post.id})
+      # preload しておく
+      hot_topic = Repo.preload(hot_topic, [{:posts, :reviews}])
       assert Pickup.get_hot_topic!(hot_topic.id) == hot_topic
     end
 
@@ -62,6 +64,8 @@ defmodule Loverage.PickupTest do
     test "update_hot_topic/2 with invalid data returns error changeset" do
       post = post_setup()
       hot_topic = hot_topic_fixture(%{post_id: post.id})
+      # preload しておく
+      hot_topic = Repo.preload(hot_topic, [{:posts, :reviews}])
       assert {:error, %Ecto.Changeset{}} = Pickup.update_hot_topic(hot_topic, @invalid_attrs)
       assert hot_topic == Pickup.get_hot_topic!(hot_topic.id)
     end
@@ -105,6 +109,8 @@ defmodule Loverage.PickupTest do
     test "get_recommendation!/1 returns the recommendation with given id" do
       post = post_setup()
       recommendation = recommendation_fixture(%{post_id: post.id})
+      # preload しておく
+      recommendation = Repo.preload(recommendation, [{:posts, :reviews}])
       assert Pickup.get_recommendation!(recommendation.id) == recommendation
     end
 
@@ -174,6 +180,8 @@ defmodule Loverage.PickupTest do
     test "get_featured!/1 returns the featured with given id" do
       post = post_setup()
       featured = featured_fixture(%{post_id: post.id})
+      # preload しておく
+      featured = Repo.preload(featured, [{:posts, :reviews}])
       assert Pickup.get_featured!(featured.id) == featured
     end
 
@@ -201,6 +209,8 @@ defmodule Loverage.PickupTest do
       post = post_setup()
       featured = featured_fixture(%{post_id: post.id})
       assert {:error, %Ecto.Changeset{}} = Pickup.update_featured(featured, @invalid_attrs)
+      # preload しておく
+      featured = Repo.preload(featured, [{:posts, :reviews}])
       assert featured == Pickup.get_featured!(featured.id)
     end
 
