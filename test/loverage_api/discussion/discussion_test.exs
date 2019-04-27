@@ -6,9 +6,9 @@ defmodule Loverage.DiscussionTest do
   describe "posts" do
     alias Loverage.Discussion.Post
 
-    @valid_attrs %{content: "some content" ,age: "e_20s", sex: "m"}
+    @valid_attrs %{content: "some content", age: "e_20s", sex: "m"}
     @update_attrs %{age: "e_30s", sex: "f"}
-    @invalid_attrs %{age: nil, sex: nil}
+    @invalid_attrs %{content: "some update content", age: nil, sex: nil}
 
     def post_fixture(attrs \\ %{}) do
       {:ok, %Post{} = post} =
@@ -26,6 +26,8 @@ defmodule Loverage.DiscussionTest do
 
     test "get_post!/1 returns the post with given id" do
       post = post_fixture()
+      # preload してからアサーション
+      post = Repo.preload(post, :reviews)
       assert Discussion.get_post!(post.id) == post
     end
 
@@ -50,6 +52,8 @@ defmodule Loverage.DiscussionTest do
     test "update_post/2 with invalid data returns error changeset" do
       post = post_fixture()
       assert {:error, %Ecto.Changeset{}} = Discussion.update_post(post, @invalid_attrs)
+      # preload してからアサーション
+      post = Repo.preload(post, :reviews)
       assert Discussion.get_post!(post.id) == post
     end
 
