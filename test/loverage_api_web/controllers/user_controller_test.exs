@@ -4,12 +4,13 @@ defmodule LoverageWeb.UserControllerTest do
   alias Loverage.Account
   alias Loverage.Account.User
 
-  @create_attrs %{email: "some email", is_active: true, password: "some password"}
-  @update_attrs %{email: "some updated email", is_active: false, password: "some updated password"}
+  @login_attrs %{email: "test@example.com", is_active: true, password: "some password"}
+  @create_attrs %{email: "other@example.com", is_active: true, password: "some password"}
+  @update_attrs %{email: "test_update@example.com", is_active: false, password: "some updated password"}
   @invalid_attrs %{email: nil, is_active: nil, password: nil}
 
   def fixture(:user) do
-    {:ok, user} = Account.create_user(@create_attrs)
+    {:ok, user} = Account.create_user(@login_attrs)
     user
   end
 
@@ -18,27 +19,38 @@ defmodule LoverageWeb.UserControllerTest do
   end
 
   describe "index" do
-    test "lists all users", %{conn: conn} do
+    setup [:create_user]
+    test "lists all users", %{conn: conn, user: %User{id: id} = user} do
+      # ログインする
+      conn = post conn, user_path(conn, :sign_in, %{email: user.email, password: "some password"})
+
       conn = get conn, user_path(conn, :index)
-      assert json_response(conn, 200)["data"] == []
+      assert json_response(conn, 200)["data"] == [%{"email" => user.email, "id" => user.id, "is_active" => user.is_active}]
     end
   end
 
   describe "create user" do
-    test "renders user when data is valid", %{conn: conn} do
+    setup [:create_user]
+    test "renders user when data is valid", %{conn: conn, user: %User{id: id} = user} do
+      # ログインする
+      conn = post conn, user_path(conn, :sign_in, %{email: user.email, password: "some password"})
+
       conn = post conn, user_path(conn, :create), user: @create_attrs
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get conn, user_path(conn, :show, id)
       assert json_response(conn, 200)["data"] == %{
         "id" => id,
-        "email" => "some email",
+        "email" => "other@example.com",
         "is_active" => true
         # "password" => "some password"
       }
     end
 
-    test "renders errors when data is invalid", %{conn: conn} do
+    test "renders errors when data is invalid", %{conn: conn, user: %User{id: id} = user} do
+      # ログインする
+      conn = post conn, user_path(conn, :sign_in, %{email: user.email, password: "some password"})
+
       conn = post conn, user_path(conn, :create), user: @invalid_attrs
       assert json_response(conn, 422)["errors"] != %{}
     end
@@ -48,19 +60,25 @@ defmodule LoverageWeb.UserControllerTest do
     setup [:create_user]
 
     test "renders user when data is valid", %{conn: conn, user: %User{id: id} = user} do
+      # ログインする
+      conn = post conn, user_path(conn, :sign_in, %{email: user.email, password: "some password"})
+
       conn = put conn, user_path(conn, :update, user), user: @update_attrs
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
       conn = get conn, user_path(conn, :show, id)
       assert json_response(conn, 200)["data"] == %{
         "id" => id,
-        "email" => "some updated email",
+        "email" => "test_update@example.com",
         "is_active" => false
         # "password" => "some updated password"
       }
     end
 
     test "renders errors when data is invalid", %{conn: conn, user: user} do
+      # ログインする
+      conn = post conn, user_path(conn, :sign_in, %{email: user.email, password: "some password"})
+
       conn = put conn, user_path(conn, :update, user), user: @invalid_attrs
       assert json_response(conn, 422)["errors"] != %{}
     end
@@ -70,6 +88,9 @@ defmodule LoverageWeb.UserControllerTest do
     setup [:create_user]
 
     test "deletes chosen user", %{conn: conn, user: user} do
+      # ログインする
+      conn = post conn, user_path(conn, :sign_in, %{email: user.email, password: "some password"})
+
       conn = delete conn, user_path(conn, :delete, user)
       assert response(conn, 204)
       assert_error_sent 404, fn ->
