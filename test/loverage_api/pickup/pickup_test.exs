@@ -74,7 +74,7 @@ defmodule Loverage.PickupTest do
       post = post_setup()
       hot_topic = hot_topic_fixture(%{post_id: post.id})
       assert {:ok, %HotTopic{}} = Pickup.delete_hot_topic(hot_topic)
-      assert_raise Ecto.NoResultsError, fn -> Pickup.get_hot_topic!(hot_topic.id) end
+      assert Pickup.get_hot_topic!(hot_topic.id) == nil
     end
 
     test "change_hot_topic/1 returns a hot_topic changeset" do
@@ -89,7 +89,7 @@ defmodule Loverage.PickupTest do
 
     @valid_attrs %{keyword: "some keyword", message: "some message"}
     @update_attrs %{keyword: "some updated keyword", message: "some update message"}
-    @invalid_attrs %{keyword: nil}
+    @invalid_attrs %{keyword: nil, post_id: nil}
 
     def recommendation_fixture(attrs \\ %{}) do
       {:ok, recommendation} =
@@ -138,6 +138,8 @@ defmodule Loverage.PickupTest do
       post = post_setup()
       recommendation = recommendation_fixture(%{post_id: post.id})
       assert {:error, %Ecto.Changeset{}} = Pickup.update_recommendation(recommendation, @invalid_attrs)
+      # preload しておく
+      recommendation = Repo.preload(recommendation, [{:posts, :reviews}])
       assert recommendation == Pickup.get_recommendation!(recommendation.id)
     end
 
@@ -145,7 +147,7 @@ defmodule Loverage.PickupTest do
       post = post_setup()
       recommendation = recommendation_fixture(%{post_id: post.id})
       assert {:ok, %Recommendation{}} = Pickup.delete_recommendation(recommendation)
-      assert_raise Ecto.NoResultsError, fn -> Pickup.get_recommendation!(recommendation.id) end
+      assert Pickup.get_recommendation!(recommendation.id) == nil
     end
 
     test "change_recommendation/1 returns a recommendation changeset" do
@@ -218,7 +220,7 @@ defmodule Loverage.PickupTest do
       post = post_setup()
       featured = featured_fixture(%{post_id: post.id})
       assert {:ok, %Featured{}} = Pickup.delete_featured(featured)
-      assert_raise Ecto.NoResultsError, fn -> Pickup.get_featured!(featured.id) end
+      assert Pickup.get_featured!(featured.id) == nil
     end
 
     test "change_featured/1 returns a featured changeset" do
