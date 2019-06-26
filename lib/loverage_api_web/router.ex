@@ -36,11 +36,13 @@ defmodule LoverageWeb.Router do
     # =============    管理向けAPI　　=========================
     post "/articles/hot_topic", HotTopicController, :create
     post "/articles/featured", FeaturedController, :create
+    delete "/articles/featured/:id", FeaturedController, :delete
     delete "/articles/:id", PostController, :delete
     post "/articles/editors_pick", RecommendationController, :create
     post "/users/sign_in", UserController, :sign_in
     get "/votes/:id", ReviewController, :show
     post "/articles/set_eye_catching", PostController, :set_eye_catching
+    post "/articles/up_to_pickup", PostController, :update_datetime
     # ================================================
   end
 

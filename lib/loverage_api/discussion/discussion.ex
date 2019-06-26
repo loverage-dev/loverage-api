@@ -206,10 +206,6 @@ defmodule Loverage.Discussion do
     記事を更新する。
   """
   def update_post(%Post{} = post, attrs) do
-    IO.inspect("==========================")
-    IO.inspect("attrs")
-    IO.inspect(attrs)
-    IO.inspect("==========================")
     post
     |> Post.changeset(attrs)
     |> Repo.update()
