@@ -22,9 +22,16 @@ defmodule LoverageWeb.FeaturedView do
     %{article: render_one(featured, FeaturedView, "post_detail.json")}
   end
 
+   def render("delete.json", %{featured: featured}) do
+    %{
+      message: "featuredから削除しました。"
+    }
+  end
+
   def render("post_overview.json", %{featured: featured}) do
     %{
       id: featured.post_id,
+      origin_id: featured.id,
       content: featured.posts.content |> auto_ellipsis,
       opt1: featured.posts.opt1,
       opt2: featured.posts.opt2,

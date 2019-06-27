@@ -25,6 +25,7 @@ defmodule LoverageWeb.RecommendationView do
   def render("post_overview.json", %{recommendation: recommendation}) do
     %{
       id: recommendation.post_id,
+      origin_id: recommendation.id,
       content: recommendation.posts.content |> auto_ellipsis,
       opt1: recommendation.posts.opt1,
       opt2: recommendation.posts.opt2,
