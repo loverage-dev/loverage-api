@@ -32,6 +32,14 @@ defmodule LoverageWeb.FeaturedController do
     end
   end
 
+  def delete(conn, %{"id" => id}) do
+    f = Pickup.get_featured!(id)
+    with {:ok, %f{}} <- Pickup.delete_featured(f) do
+      render(conn, "delete.json", featured: f)
+      #send_resp(conn, :no_content, "")
+    end
+  end
+
   def show(conn, %{"id" => id}) do
     featured = Pickup.get_featured!(id)
     render(conn, "show.json", featured: featured)

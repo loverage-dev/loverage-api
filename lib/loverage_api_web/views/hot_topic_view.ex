@@ -25,6 +25,7 @@ defmodule LoverageWeb.HotTopicView do
   def render("post_overview.json", %{hot_topic: hottopic}) do
     %{
       id: hottopic.post_id,
+      origin_id: hottopic.id,
       content: hottopic.posts.content |> auto_ellipsis,
       opt1: hottopic.posts.opt1,
       opt2: hottopic.posts.opt2,
