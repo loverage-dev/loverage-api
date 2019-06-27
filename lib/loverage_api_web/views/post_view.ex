@@ -22,6 +22,14 @@ defmodule LoverageWeb.PostView do
     }
   end
 
+    def render("up_to_pickup.json", %{post: post}) do
+    %{
+      id: post.id,
+      updated_at: post.updated_at,
+      message: "更新日時を最新化しました。"
+    }
+  end
+
   def render("delete.json", %{post: post}) do
     %{
       id: post.id,
