@@ -128,4 +128,64 @@ defmodule Loverage.DiscussionTest do
       assert %Ecto.Changeset{} = Discussion.change_review(review)
     end
   end
+
+  describe "comments" do
+    alias Loverage.Discussion.Comment
+
+    @valid_attrs %{comment: "some comment"}
+    @update_attrs %{comment: "some updated comment"}
+    @invalid_attrs %{comment: nil}
+
+    def comment_fixture(attrs \\ %{}) do
+      {:ok, comment} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Discussion.create_comment()
+
+      comment
+    end
+
+    test "list_comments/0 returns all comments" do
+      comment = comment_fixture()
+      assert Discussion.list_comments() == [comment]
+    end
+
+    test "get_comment!/1 returns the comment with given id" do
+      comment = comment_fixture()
+      assert Discussion.get_comment!(comment.id) == comment
+    end
+
+    test "create_comment/1 with valid data creates a comment" do
+      assert {:ok, %Comment{} = comment} = Discussion.create_comment(@valid_attrs)
+      assert comment.comment == "some comment"
+    end
+
+    test "create_comment/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Discussion.create_comment(@invalid_attrs)
+    end
+
+    test "update_comment/2 with valid data updates the comment" do
+      comment = comment_fixture()
+      assert {:ok, comment} = Discussion.update_comment(comment, @update_attrs)
+      assert %Comment{} = comment
+      assert comment.comment == "some updated comment"
+    end
+
+    test "update_comment/2 with invalid data returns error changeset" do
+      comment = comment_fixture()
+      assert {:error, %Ecto.Changeset{}} = Discussion.update_comment(comment, @invalid_attrs)
+      assert comment == Discussion.get_comment!(comment.id)
+    end
+
+    test "delete_comment/1 deletes the comment" do
+      comment = comment_fixture()
+      assert {:ok, %Comment{}} = Discussion.delete_comment(comment)
+      assert_raise Ecto.NoResultsError, fn -> Discussion.get_comment!(comment.id) end
+    end
+
+    test "change_comment/1 returns a comment changeset" do
+      comment = comment_fixture()
+      assert %Ecto.Changeset{} = Discussion.change_comment(comment)
+    end
+  end
 end

@@ -305,4 +305,52 @@ defmodule Loverage.Discussion do
   def change_review(%Review{} = review) do
     Review.changeset(review, %{})
   end
+
+  alias Loverage.Discussion.Comment
+
+  @doc """
+  Returns the list of comments.
+    コメントの一覧を返却する。
+  """
+  def list_comments do
+    Repo.all(Comment)
+  end
+
+  @doc """
+    コメントを1件取得する。
+  """
+  def get_comment!(id), do: Repo.get!(Comment, id)
+
+  @doc """
+    コメントを作成する。
+  """
+  def create_comment(attrs \\ %{}) do
+    %Comment{}
+    |> Comment.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+    コメントを更新する。
+  """
+  def update_comment(%Comment{} = comment, attrs) do
+    comment
+    |> Comment.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+    コメントを削除する。
+  """
+  def delete_comment(%Comment{} = comment) do
+    Repo.delete(comment)
+  end
+
+  @doc """
+    コメントの変更を追跡する。
+  ## Examples
+  """
+  def change_comment(%Comment{} = comment) do
+    Comment.changeset(comment, %{})
+  end
 end
