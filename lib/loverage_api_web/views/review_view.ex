@@ -9,7 +9,7 @@ defmodule LoverageWeb.ReviewView do
   def render("created.json", %{review: review}) do
     %{
       post_id: review.post_id,
-      message: "投稿しました。"
+      message: "回答が完了しました。"
     }
   end
 
