@@ -11,6 +11,7 @@ defmodule Loverage.Discussion do
   alias Loverage.Repo
   alias Loverage.Discussion.Post
   alias Loverage.Discussion.Review
+  alias Loverage.Discussion.Comment
 
   @default_posts_pagination_limit 30
 
@@ -174,7 +175,7 @@ defmodule Loverage.Discussion do
   def get_post!(id) do
     Repo.get!(Post, id)
     |> increment_ref_count
-    |> Repo.preload(:reviews)
+    |> Repo.preload([:reviews, :comments])
   end
 
    @doc """
@@ -260,7 +261,6 @@ defmodule Loverage.Discussion do
     |> Review.changeset(attrs)
     |> Repo.insert()
     |> increment_reviews_amount
-    |> IO.inspect
   end
 
   @doc """
@@ -306,14 +306,25 @@ defmodule Loverage.Discussion do
     Review.changeset(review, %{})
   end
 
-  alias Loverage.Discussion.Comment
-
   @doc """
-  Returns the list of comments.
-    コメントの一覧を返却する。
+    コメントの一覧を返却する。【引数なし】
   """
   def list_comments do
     Repo.all(Comment)
+  end
+
+  @doc """
+    コメントの一覧を返却する。【引数あり】
+  """
+  def list_comments(comments_params) do
+
+    # 絞り込み条件
+    limit = comments_params["limit"] || 60
+    offset = comments_params["offset"] || 0
+
+    from(c in Comment, limit: ^limit, offset: ^offset, order_by: c.updated_at)
+    |> Repo.all()
+
   end
 
   @doc """
@@ -325,6 +336,11 @@ defmodule Loverage.Discussion do
     コメントを作成する。
   """
   def create_comment(attrs \\ %{}) do
+
+    IO.inspect('=======================================')
+    IO.inspect(attrs)
+    IO.inspect('=======================================')
+
     %Comment{}
     |> Comment.changeset(attrs)
     |> Repo.insert()

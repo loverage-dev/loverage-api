@@ -4,7 +4,7 @@ defmodule Loverage.Discussion.Comment do
 
 
   schema "comments" do
-    field :comment, :string
+    field :content, :string
     field :age, :string                         #年齢（e_10s/l_10s/e_20s/l_20s/e_30s/l_30s/e_40s/l_40s/e_50s/l_50s/e_60s/l_60s）
     field :sex, :string                         #性別（m/f/o）
     field :icon_id, :string                     #アイコン識別子
@@ -20,9 +20,10 @@ defmodule Loverage.Discussion.Comment do
 
   @doc false
   def changeset(comment, attrs) do
+  IO.inspect(attrs)
     comment
-    |> cast(attrs, [:comment, :sex, :age, :icon_id, :selected_opt, :post_id])
-    |> validate_required([:comment, :sex, :age, :icon_id, :selected_opt, :post_id])
+    |> cast(attrs, [:content, :sex, :age, :icon_id, :selected_opt, :post_id])
+    |> validate_required([:content, :sex, :age, :icon_id, :selected_opt, :post_id])
     |> validate_inclusion(:age, ["e_10s", "l_10s", "e_20s", "l_20s","e_30s", "l_30s","e_40s", "l_40s","e_50s", "l_50s","e_60s", "l_60s"])
     |> validate_inclusion(:sex, ["m", "f", "o"])
     |> validate_inclusion(:selected_opt, ["opt1", "opt2"])

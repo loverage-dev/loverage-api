@@ -3,7 +3,7 @@ defmodule Loverage.Repo.Migrations.CreateComments do
 
   def change do
     create table(:comments) do
-      add :comment, :text
+      add :content, :text
       add :sex, :string
       add :age, :string
       add :selected_opt, :string
