@@ -33,6 +33,7 @@ defmodule LoverageWeb.Router do
     get "/featureds/:id", FeaturedController, :show
     post "/articles", PostController, :create
     post "/articles/:id/vote", ReviewController, :create
+    post "/articles/:id/comment", CommentController, :create
     # =============    管理向けAPI　　=========================
     post "/articles/hot_topic", HotTopicController, :create
     post "/articles/featured", FeaturedController, :create
@@ -41,6 +42,8 @@ defmodule LoverageWeb.Router do
     post "/articles/editors_pick", RecommendationController, :create
     post "/users/sign_in", UserController, :sign_in
     get "/votes/:id", ReviewController, :show
+    get "/comments/:id", CommentController, :show
+    get "/comments", CommentController, :index
     post "/articles/set_eye_catching", PostController, :set_eye_catching
     post "/articles/up_to_pickup", PostController, :update_datetime
     # ================================================

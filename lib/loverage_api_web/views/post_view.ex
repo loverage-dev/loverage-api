@@ -5,6 +5,7 @@ defmodule LoverageWeb.PostView do
   """
   use LoverageWeb, :view
   alias LoverageWeb.PostView
+  alias LoverageWeb.CommentView
   import LoverageWeb.ViewHelpers
 
   def render("index.json", %{posts: posts}) do
@@ -60,7 +61,7 @@ defmodule LoverageWeb.PostView do
 
   def render("post_detail.json", %{post: post}) do
     reviews = post.reviews
-
+    comments = post.comments
     %{
       post: %{
         id: post.id,
@@ -131,7 +132,8 @@ defmodule LoverageWeb.PostView do
           # },
           amount: Enum.count(reviews, fn x -> x.selected_opt == "opt2" end)
         }
-      }
+      },
+      comments: render(CommentView, "index.json", comments: comments)
     }
   end
 end
