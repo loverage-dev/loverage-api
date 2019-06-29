@@ -24,6 +24,7 @@ defmodule Loverage.Discussion.Post do
 
     # リレーション設定
     has_many :reviews, Loverage.Discussion.Review
+    has_many :comments, Loverage.Discussion.Comment
     has_one :hottopics, Loverage.Pickup.HotTopic
     has_one :recommendations, Loverage.Pickup.Recommendation
     has_one :featureds, Loverage.Pickup.Featured
