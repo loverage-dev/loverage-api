@@ -24,9 +24,10 @@ defmodule LoverageWeb.CommentView do
   def render("comment.json", %{comment: comment}) do
     %{
       post_id: comment.post_id,
+      origin_id: comment.id,
       content: comment.content,
       icon_id: comment.icon_id,
-      selected_at: comment.selected_opt,
+      selected_opt: comment.selected_opt,
       user_age: comment.age,
       user_sex: comment.sex,
       created_at: comment.inserted_at
