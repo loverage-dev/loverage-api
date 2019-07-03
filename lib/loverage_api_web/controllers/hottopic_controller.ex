@@ -36,6 +36,14 @@ defmodule LoverageWeb.HotTopicController do
     render(conn, "show.json", hot_topic: hottopic)
   end
 
+  def delete(conn, %{"id" => id}) do
+    h = Pickup.get_hot_topic!(id)
+    with {:ok, %h{}} <- Pickup.delete_hot_topic(h) do
+      render(conn, "delete.json", hot_topic: h)
+      #send_resp(conn, :no_content, "")
+    end
+  end
+
   defp rep_created(conn, hottopic) do
     conn
         |> put_status(:created)

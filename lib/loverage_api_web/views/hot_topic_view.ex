@@ -14,6 +14,12 @@ defmodule LoverageWeb.HotTopicView do
     }
   end
 
+  def render("delete.json", %{hot_topic: hottopic}) do
+    %{
+      message: "HotTopicから削除しました。"
+    }
+  end
+
   def render("index.json", %{hot_topics: hottopics}) do
     %{articles: render_many(hottopics, HotTopicView, "post_overview.json")}
   end
