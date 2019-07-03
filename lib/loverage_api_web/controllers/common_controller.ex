@@ -88,7 +88,7 @@ defmodule LoverageWeb.CommonController do
     # Topicsの取得
     topics_exclude = aggrigate_exclude_ids(editors_picks, editors_picks_exclude)
     topics = Discussion.list_posts(%{ "limit" => 40, "exclude" => topics_exclude })
-    others_1 = Enum.slice(topics, 1, @others1_topics_limit)
+    others_1 = Enum.slice(topics, 8, @others1_topics_limit)
     others_2 = Enum.slice(topics, @others1_topics_limit, @others2_topics_limit)
 
     # 概要の生成
