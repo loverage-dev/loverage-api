@@ -39,6 +39,8 @@ defmodule LoverageWeb.Router do
     post "/articles/featured", FeaturedController, :create
     delete "/articles/featured/:id", FeaturedController, :delete
     delete "/articles/:id", PostController, :delete
+    delete "/articles/hot_topic/:id", HotTopicController, :delete
+    delete "/articles/editors_pick/:id", RecommendationController, :delete
     post "/articles/editors_pick", RecommendationController, :create
     post "/users/sign_in", UserController, :sign_in
     get "/votes/:id", ReviewController, :show

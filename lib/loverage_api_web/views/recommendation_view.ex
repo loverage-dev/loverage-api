@@ -14,6 +14,12 @@ defmodule LoverageWeb.RecommendationView do
     }
   end
 
+  def render("delete.json", %{recommendation: recommendation}) do
+    %{
+      message: "Editor's Pickから削除しました。"
+    }
+  end
+
   def render("index.json", %{recommendations: recommendations}) do
     %{articles: render_many(recommendations, RecommendationView, "post_overview.json")}
   end
