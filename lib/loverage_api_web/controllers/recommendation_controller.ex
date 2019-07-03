@@ -32,6 +32,16 @@ defmodule LoverageWeb.RecommendationController do
     end
   end
 
+
+
+  def delete(conn, %{"id" => id}) do
+    r = Pickup.get_recommendation!(id)
+    with {:ok, %r{}} <- Pickup.delete_recommendation(r) do
+      render(conn, "delete.json", recommendation: r)
+      #send_resp(conn, :no_content, "")
+    end
+  end
+
   def show(conn, %{"id" => id}) do
     recommendation = Pickup.get_recommendation!(id)
     render(conn, "show.json", recommendation: recommendation)
