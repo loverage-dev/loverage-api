@@ -19,6 +19,8 @@ defmodule LoverageWeb.PostView do
   def render("created.json", %{post: post}) do
     %{
       id: post.id,
+      created_at: post.inserted_at,
+      title: post.content |> auto_ellipsis,
       message: "投稿を登録しました。"
     }
   end
