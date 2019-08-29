@@ -28,6 +28,7 @@ defmodule Loverage.Discussion.Post do
     has_one :hottopics, Loverage.Pickup.HotTopic
     has_one :recommendations, Loverage.Pickup.Recommendation
     has_one :featureds, Loverage.Pickup.Featured
+    has_one :visuals, Loverage.Pickup.Visual
 
     timestamps(type: :utc_datetime)
 

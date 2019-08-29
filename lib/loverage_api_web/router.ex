@@ -48,6 +48,11 @@ defmodule LoverageWeb.Router do
     get "/comments", CommentController, :index
     post "/articles/set_eye_catching", PostController, :set_eye_catching
     post "/articles/up_to_pickup", PostController, :update_datetime
+    post "/visuals", VisualController, :create
+    post "/visuals/:id", VisualController, :update
+    delete "/visuals/:id", VisualController, :delete
+    get "/visuals", VisualController, :index
+    get "/visuals/:id", VisualController, :show
     # ================================================
   end
 
