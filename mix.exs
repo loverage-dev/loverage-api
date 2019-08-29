@@ -41,7 +41,8 @@ defmodule Loverage.Mixfile do
       {:cowboy, "~> 1.0"},
       {:plug_cowboy, "~> 1.0"},
       {:bcrypt_elixir, "~> 1.0"},
-      {:cors_plug, "~> 1.5"}
+      {:cors_plug, "~> 1.5"},
+      {:timex, "~> 3.0"}
     ]
   end
 

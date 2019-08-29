@@ -182,4 +182,66 @@ defmodule Loverage.PickupTest do
       assert %Ecto.Changeset{} = Pickup.change_featured(featured)
     end
   end
+
+  describe "visuals" do
+    alias Loverage.Pickup.Visual
+
+    @valid_attrs %{day_of_week_no: 42, type: "some type"}
+    @update_attrs %{day_of_week_no: 43, type: "some updated type"}
+    @invalid_attrs %{day_of_week_no: nil, type: nil}
+
+    def visual_fixture(attrs \\ %{}) do
+      {:ok, visual} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Pickup.create_visual()
+
+      visual
+    end
+
+    test "list_visuals/0 returns all visuals" do
+      visual = visual_fixture()
+      assert Pickup.list_visuals() == [visual]
+    end
+
+    test "get_visual!/1 returns the visual with given id" do
+      visual = visual_fixture()
+      assert Pickup.get_visual!(visual.id) == visual
+    end
+
+    test "create_visual/1 with valid data creates a visual" do
+      assert {:ok, %Visual{} = visual} = Pickup.create_visual(@valid_attrs)
+      assert visual.day_of_week_no == 42
+      assert visual.type == "some type"
+    end
+
+    test "create_visual/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Pickup.create_visual(@invalid_attrs)
+    end
+
+    test "update_visual/2 with valid data updates the visual" do
+      visual = visual_fixture()
+      assert {:ok, visual} = Pickup.update_visual(visual, @update_attrs)
+      assert %Visual{} = visual
+      assert visual.day_of_week_no == 43
+      assert visual.type == "some updated type"
+    end
+
+    test "update_visual/2 with invalid data returns error changeset" do
+      visual = visual_fixture()
+      assert {:error, %Ecto.Changeset{}} = Pickup.update_visual(visual, @invalid_attrs)
+      assert visual == Pickup.get_visual!(visual.id)
+    end
+
+    test "delete_visual/1 deletes the visual" do
+      visual = visual_fixture()
+      assert {:ok, %Visual{}} = Pickup.delete_visual(visual)
+      assert_raise Ecto.NoResultsError, fn -> Pickup.get_visual!(visual.id) end
+    end
+
+    test "change_visual/1 returns a visual changeset" do
+      visual = visual_fixture()
+      assert %Ecto.Changeset{} = Pickup.change_visual(visual)
+    end
+  end
 end

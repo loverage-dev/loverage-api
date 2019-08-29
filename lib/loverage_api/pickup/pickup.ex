@@ -302,4 +302,101 @@ defmodule Loverage.Pickup do
   def change_featured(%Featured{} = featured) do
     Featured.changeset(featured, %{})
   end
+
+  alias Loverage.Pickup.Visual
+
+  @doc """
+  Returns the list of visuals.
+  """
+  def list_visuals do
+    Repo.all(Visual)
+    |> Repo.preload(:posts)
+  end
+
+    @doc """
+  Returns the list of visuals.
+  """
+  def list_visuals(visuals_params) do
+    from(v in Visual)
+    |> filter_by_type(visuals_params["type"])
+    |> filter_by_day_of_week_no(visuals_params["day_of_week_no"])
+    |> Repo.all()
+    |> Repo.preload(:posts)
+  end
+
+  @doc """
+    属性でフィルタリング（指定なし）
+  """
+  def filter_by_type(query, nil) do
+    query
+  end
+
+  @doc """
+    属性でフィルタリング（指定あり）
+  """
+  def filter_by_type(query, type) do
+    query |> where([v], fragment("?", v.type) == ^type)
+  end
+
+  @doc """
+    曜日でフィルタリング（指定なし）
+  """
+  def filter_by_day_of_week_no(query, nil) do
+    query
+  end
+
+  @doc """
+    曜日でフィルタリング（指定あり）
+  """
+  def filter_by_day_of_week_no(query, day_of_week_no) do
+    d = String.to_integer(day_of_week_no)
+    query |> where([v], fragment("?", v.day_of_week_no) == ^d)
+  end
+
+  @doc """
+  Gets a single visual.
+  """ 
+  def get_visual!(id) do
+    (
+      from v in Visual,
+        where: v.id == ^id,
+        join: p in Post, where: p.id == v.post_id,
+        left_join: posts in assoc(v, :posts),
+        left_join: reviews in assoc(posts, :reviews),
+        preload: [posts: {posts, reviews: reviews}]
+    )
+    |> Repo.one()
+  end
+
+  @doc """
+  Creates a visual.
+  """
+  def create_visual(attrs \\ %{}) do
+    %Visual{}
+    |> Visual.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a visual.
+  """
+  def update_visual(%Visual{} = visual, attrs) do
+    visual
+    |> Visual.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a Visual.
+  """
+  def delete_visual(%Visual{} = visual) do
+    Repo.delete(visual)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking visual changes.
+  """
+  def change_visual(%Visual{} = visual) do
+    Visual.changeset(visual, %{})
+  end
 end
