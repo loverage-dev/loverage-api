@@ -75,7 +75,7 @@ defmodule LoverageWeb.CommonController do
       |> Enum.slice(0, @featured_limit)
 
     # HotTopicsの取得
-    hot_topics_exclude = aggrigate_exclude_ids(featureds, featureds_exclude)
+    hot_topics_exclude = aggrigate_exclude_post_ids(featureds, featureds_exclude)
     hot_topics =
       Pickup.list_hottopics(%{ "limit" => @hot_topics_limit })
     # hot_topics =
@@ -84,7 +84,7 @@ defmodule LoverageWeb.CommonController do
 
     # Editor's Pickの取得
 
-    editors_picks_exclude = aggrigate_exclude_ids(hot_topics, hot_topics_exclude)
+    editors_picks_exclude = aggrigate_exclude_post_ids(hot_topics, hot_topics_exclude)
     editors_picks =
       Pickup.list_recommendations(%{ "limit" => @editors_pick_limit })
     # editors_picks =
@@ -92,7 +92,7 @@ defmodule LoverageWeb.CommonController do
     #   |> Enum.slice(0, @editors_pick_limit)
 
     # Topicsの取得
-    topics_exclude = aggrigate_exclude_ids(editors_picks, editors_picks_exclude)
+    topics_exclude = aggrigate_exclude_post_ids(editors_picks, editors_picks_exclude)
     topics = Discussion.list_posts(%{ "limit" => 30, "exclude" => topics_exclude })
     others_2 = Enum.slice(topics, 0, @others2_topics_limit)
     others_3 = Enum.slice(topics, @others2_topics_limit + 1, @others3_topics_limit)
@@ -122,6 +122,15 @@ defmodule LoverageWeb.CommonController do
   def aggrigate_exclude_ids(post_list, exclude_id_list) do
     tmp_list = [0]
     new_exclude_id_list = for n <- post_list, into: tmp_list, do: n.id
+    all = new_exclude_id_list ++ exclude_id_list
+    uniq_all = Enum.uniq(all)
+    uniq_all
+  end
+
+  def aggrigate_exclude_post_ids(post_list, exclude_id_list) do
+    IO.inspect(post_list)
+    tmp_list = [0]
+    new_exclude_id_list = for n <- post_list, into: tmp_list, do: n.post_id
     all = new_exclude_id_list ++ exclude_id_list
     uniq_all = Enum.uniq(all)
     uniq_all
