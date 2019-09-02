@@ -44,8 +44,11 @@ defmodule LoverageWeb.Router do
     post "/articles/editors_pick", RecommendationController, :create
     post "/users/sign_in", UserController, :sign_in
     get "/votes/:id", ReviewController, :show
+    post "/comments/:id", CommentController, :update
     get "/comments/:id", CommentController, :show
+    delete "comments/:id", CommentController, :delete
     get "/comments", CommentController, :index
+    post "/articles/:id/update", PostController, :update
     post "/articles/set_eye_catching", PostController, :set_eye_catching
     post "/articles/up_to_pickup", PostController, :update_datetime
     post "/visuals", VisualController, :create

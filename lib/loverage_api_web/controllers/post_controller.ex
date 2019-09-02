@@ -15,6 +15,13 @@ defmodule LoverageWeb.PostController do
     render(conn, "index.json", posts: posts)
   end
 
+  def update(conn, %{"id" => id, "post" => post_params}) do
+    post = Discussion.get_post!(id)
+    with {:ok, %Post{} = post} <- Discussion.update_post(post, post_params) do
+      render(conn, "updated.json", post: post)
+    end
+  end
+
   def update_datetime(conn, %{"id" => id}) do
     with {:ok, %Post{} = post} <- Discussion.update_posts_updated_at(id) do
       IO.inspect(post)

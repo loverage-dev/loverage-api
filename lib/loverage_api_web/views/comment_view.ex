@@ -21,6 +21,21 @@ defmodule LoverageWeb.CommentView do
     %{content: render_one(comment, CommentView, "comment.json")}
   end
 
+  def render("updated.json",%{comment: comment}) do
+    %{
+      post_id: comment.post_id,
+      origin_id: comment.id,
+      updated_at: comment.updated_at,
+      message: "コメントを更新しました。"
+    }
+  end
+  
+  def render("delete.json", %{comment: comment}) do
+    %{
+      message: "コメントを削除しました。"
+    }
+  end
+
   def render("comment.json", %{comment: comment}) do
     %{
       post_id: comment.post_id,
