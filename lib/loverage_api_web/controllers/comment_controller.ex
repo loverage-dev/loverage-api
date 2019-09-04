@@ -26,7 +26,22 @@ defmodule LoverageWeb.CommentController do
       |> render("created.json", comment: comment)
     end
   end
+
+  def update(conn, %{"id" => id, "comment" => comment_params}) do
+    comment = Discussion.get_comment!(id)
+    with {:ok, %Comment{} = comment} <- Discussion.update_comment(comment, comment_params) do
+      render(conn, "updated.json", comment: comment)
+    end
+  end
   
+  def delete(conn, %{"id" => id}) do
+    comment = Discussion.get_comment!(id)
+    with {:ok, %Comment{}} <- Discussion.delete_comment(comment) do
+      render(conn, "delete.json", comment: comment)
+      #send_resp(conn, :no_content, "")
+    end
+  end
+
   def show(conn, %{"id" => id}) do
     comment = Discussion.get_comment!(id)
     render(conn, "show.json", comment: comment)

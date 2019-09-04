@@ -25,6 +25,15 @@ defmodule LoverageWeb.PostView do
     }
   end
 
+  def render("updated.json",%{post: post}) do
+    %{
+      id: post.id,
+      updated_at: post.updated_at,
+      title: post.content |> auto_ellipsis,
+      message: "投稿を更新しました。"
+    }
+  end
+
     def render("up_to_pickup.json", %{post: post}) do
     %{
       id: post.id,
