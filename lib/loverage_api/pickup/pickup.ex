@@ -38,8 +38,8 @@ defmodule Loverage.Pickup do
       from h in HotTopic,
         limit: ^limit,
         offset: ^offset,
-        order_by: [desc: h.updated_at],
         join: p in Post, where: h.post_id == p.id,
+        order_by: [desc: p.updated_at],
         left_join: posts in assoc(h, :posts),
         preload: [posts: posts]
     )
@@ -137,8 +137,8 @@ defmodule Loverage.Pickup do
       from r in Recommendation,
         limit: ^limit,
         offset: ^offset,
-        order_by: [desc: r.updated_at],
         join: p in Post, where: r.post_id == p.id,
+        order_by: [desc: p.updated_at],
         left_join: posts in assoc(r, :posts),
         preload: [posts: posts]
     )
@@ -223,8 +223,8 @@ defmodule Loverage.Pickup do
       from f in Featured,
         limit: ^limit,
         offset: ^offset,
-        order_by: [desc: f.updated_at],
         join: p in Post, where: f.post_id == p.id,
+        order_by: [desc: p.updated_at],
         left_join: posts in assoc(f, :posts),
         preload: [posts: posts]
     )
