@@ -12,6 +12,7 @@ defmodule Loverage.Discussion do
   alias Loverage.Discussion.Post
   alias Loverage.Discussion.Review
   alias Loverage.Discussion.Comment
+  alias Loverage.Discussion.Category
 
   @default_posts_pagination_limit 30
 
@@ -32,7 +33,13 @@ defmodule Loverage.Discussion do
     offset = posts_params["offset"] || 0
 
     # 検索
-    from(p in Post, limit: ^limit, offset: ^offset, order_by: [desc: p.updated_at])
+    (
+      from p in Post,
+      limit: ^limit,
+      offset: ^offset,
+      order_by: [desc: p.updated_at],
+      preload: [:categories]
+    )
     |> filter_by_exclude(posts_params["exclude"])
     |> filter_by_age(posts_params["age"])
     |> filter_by_sex(posts_params["sex"])
@@ -54,6 +61,7 @@ defmodule Loverage.Discussion do
     # 検索
     from(p in Post, limit: ^limit, offset: ^offset, order_by: [desc: p.ref_count, desc: p.updated_at])
     |> Repo.all()
+    |> Repo.preload(:categories)
 
   end
 
@@ -69,6 +77,7 @@ defmodule Loverage.Discussion do
     # 検索
     from(p in Post, limit: ^limit, offset: ^offset, order_by: [desc: p.reviews_amount, desc: p.updated_at])
     |> Repo.all()
+    |> Repo.preload(:categories)
 
   end
   @doc """
@@ -83,6 +92,7 @@ defmodule Loverage.Discussion do
     # 検索
     from(p in Post, limit: ^limit, offset: ^offset, order_by: [desc: p.inserted_at])
     |> Repo.all()
+    |> Repo.preload(:categories)
 
   end
 
@@ -153,7 +163,10 @@ defmodule Loverage.Discussion do
     カテゴリ名でフィルタリング（指定あり）
   """
   def filter_by_category(query, category) do
-    query |> where([p], fragment("?", p.category) == ^category)
+
+    query 
+      |> join(:left, [p], c in assoc(p, :categories))
+      |> where([_, c], c.name == ^category)
   end
 
   @doc """
@@ -175,7 +188,7 @@ defmodule Loverage.Discussion do
   def get_post!(id) do
     Repo.get!(Post, id)
     |> increment_ref_count
-    |> Repo.preload([:reviews, :comments])
+    |> Repo.preload([:reviews, :comments, :categories])
   end
 
    @doc """
@@ -183,6 +196,7 @@ defmodule Loverage.Discussion do
   """
   def get_post(id) do
     Repo.get!(Post, id)
+    |> Repo.preload([:reviews, :comments, :categories])
   end
 
   @doc """
@@ -337,10 +351,6 @@ defmodule Loverage.Discussion do
   """
   def create_comment(attrs \\ %{}) do
 
-    IO.inspect('=======================================')
-    IO.inspect(attrs)
-    IO.inspect('=======================================')
-
     %Comment{}
     |> Comment.changeset(attrs)
     |> Repo.insert()
@@ -368,5 +378,54 @@ defmodule Loverage.Discussion do
   """
   def change_comment(%Comment{} = comment) do
     Comment.changeset(comment, %{})
+  end
+
+
+  @doc """
+    カテゴリーの一覧を返却する。
+  """
+  def list_categories do
+    Repo.all(Category)
+    |> Repo.preload([posts: :categories])
+  end
+
+  @doc """
+  カテゴリーを一見取得する。
+  """
+  def get_category!(id) do
+    Repo.get!(Category, id)
+    |> Repo.preload([posts: :categories])
+  end
+
+  @doc """
+  カテゴリーを作成する。
+  """
+  def create_category(attrs \\ %{}) do
+    %Category{}
+    |> Category.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  カテゴリーを更新する。
+  """
+  def update_category(%Category{} = category, attrs) do
+    category
+    |> Category.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  カテゴリーを削除する。
+  """
+  def delete_category(%Category{} = category) do
+    Repo.delete(category)
+  end
+
+  @doc """
+  カテゴリの変更を追跡する。
+  """
+  def change_category(%Category{} = category) do
+    Category.changeset(category, %{})
   end
 end

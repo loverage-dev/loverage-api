@@ -29,6 +29,7 @@ defmodule LoverageWeb.FeaturedView do
   end
 
   def render("post_overview.json", %{featured: featured}) do
+    category_name = if featured.posts.categories != nil, do: featured.posts.categories.name
     %{
       id: featured.post_id,
       origin_id: featured.id,
@@ -46,12 +47,15 @@ defmodule LoverageWeb.FeaturedView do
       user_name: featured.posts.name,
       user_age: featured.posts.age,
       user_sex: featured.posts.sex,
-      img_tag: featured.posts.img_tag
+      img_tag: featured.posts.img_tag,
+      category_id: featured.posts.category_id,
+      category: category_name
     }
   end
 
   def render("post_detail.json", %{featured: featured}) do
     reviews = featured.posts.reviews
+    category_name = if featured.posts.categories != nil, do: featured.posts.categories.name
 
     %{
       post: %{
@@ -62,12 +66,13 @@ defmodule LoverageWeb.FeaturedView do
         ref_count: featured.posts.ref_count,
         # TODO: IMAGEをひっぱってくるようにする。
         image_url: "sample",
-        category: featured.posts.category,
+        category: category_name,
         tag_list: featured.posts.tag_list,
         votes_amount: featured.posts.reviews_amount,
         created_at: featured.posts.inserted_at,
         updated_at: featured.posts.updated_at,
-        img_tag: featured.posts.img_tag
+        img_tag: featured.posts.img_tag,
+        category_id: featured.posts.category_id
       },
       user: %{
         name: featured.posts.name,

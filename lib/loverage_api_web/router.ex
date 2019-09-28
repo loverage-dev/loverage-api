@@ -56,6 +56,12 @@ defmodule LoverageWeb.Router do
     delete "/visuals/:id", VisualController, :delete
     get "/visuals", VisualController, :index
     get "/visuals/:id", VisualController, :show
+    get "/categories/:id", CategoryController, :show
+    get "/categories", CategoryController, :index
+    post "/categories", CategoryController, :create
+    post "/categories/:id/update", CategoryController, :update
+    delete "/categories/:id", CategoryController, :delete
+    
     # ================================================
   end
 

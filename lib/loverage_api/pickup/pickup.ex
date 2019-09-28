@@ -41,7 +41,8 @@ defmodule Loverage.Pickup do
         join: p in Post, where: h.post_id == p.id,
         order_by: [desc: p.updated_at],
         left_join: posts in assoc(h, :posts),
-        preload: [posts: posts]
+        left_join: category in assoc(posts, :categories),
+        preload: [posts: {posts, categories: category}]
     )
     |> filter_by_exclude(hottopics_params["exclude"])
     |> Repo.all()
@@ -71,7 +72,8 @@ defmodule Loverage.Pickup do
         join: p in Post, where: p.id == h.post_id,
         left_join: posts in assoc(h, :posts),
         left_join: reviews in assoc(posts, :reviews),
-        preload: [posts: {posts, reviews: reviews}]
+        left_join: category in assoc(posts, :categories),
+        preload: [posts: {posts, reviews: reviews, categories: category}]
     )
     |> Repo.one()
   end
@@ -140,7 +142,8 @@ defmodule Loverage.Pickup do
         join: p in Post, where: r.post_id == p.id,
         order_by: [desc: p.updated_at],
         left_join: posts in assoc(r, :posts),
-        preload: [posts: posts]
+        left_join: category in assoc(posts, :categories),
+        preload: [posts: {posts, categories: category}]
     )
     |> filter_by_exclude(recos_params["exclude"])
     |> Repo.all()
@@ -156,7 +159,8 @@ defmodule Loverage.Pickup do
         join: p in Post, where: p.id == r.post_id,
         left_join: posts in assoc(r, :posts),
         left_join: reviews in assoc(posts, :reviews),
-        preload: [posts: {posts, reviews: reviews}]
+        left_join: category in assoc(posts, :categories),
+        preload: [posts: {posts, reviews: reviews, categories: category}]
     )
     |> Repo.one()
   end
@@ -226,7 +230,8 @@ defmodule Loverage.Pickup do
         join: p in Post, where: f.post_id == p.id,
         order_by: [desc: p.updated_at],
         left_join: posts in assoc(f, :posts),
-        preload: [posts: posts]
+        left_join: category in assoc(posts, :categories),
+        preload: [posts: {posts, categories: category}]
     )
     |> filter_by_exclude(featureds_params["exclude"])
     |> Repo.all()
@@ -242,7 +247,8 @@ defmodule Loverage.Pickup do
         join: p in Post, where: p.id == f.post_id,
         left_join: posts in assoc(f, :posts),
         left_join: reviews in assoc(posts, :reviews),
-        preload: [posts: {posts, reviews: reviews}]
+        left_join: category in assoc(posts, :categories),
+        preload: [posts: {posts, reviews: reviews, categories: category}]
     )
     |> Repo.one()
   end
@@ -317,11 +323,16 @@ defmodule Loverage.Pickup do
   Returns the list of visuals.
   """
   def list_visuals(visuals_params) do
-    from(v in Visual)
+    (
+      from v in Visual,
+      join: p in Post, where: v.post_id == p.id,
+      left_join: posts in assoc(v, :posts),
+      left_join: category in assoc(posts, :categories),
+      preload: [posts: {posts, categories: category}]
+    )
     |> filter_by_type(visuals_params["type"])
     |> filter_by_day_of_week_no(visuals_params["day_of_week_no"])
     |> Repo.all()
-    |> Repo.preload(:posts)
   end
 
   @doc """
@@ -363,7 +374,8 @@ defmodule Loverage.Pickup do
         join: p in Post, where: p.id == v.post_id,
         left_join: posts in assoc(v, :posts),
         left_join: reviews in assoc(posts, :reviews),
-        preload: [posts: {posts, reviews: reviews}]
+        left_join: category in assoc(posts, :categories),
+        preload: [posts: {posts, reviews: reviews, categories: category}]
     )
     |> Repo.one()
   end
