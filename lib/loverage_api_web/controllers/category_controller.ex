@@ -13,6 +13,12 @@ defmodule LoverageWeb.CategoryController do
       categories = Discussion.list_categories()
       render(conn, "index.json", categories: categories)
     end
+
+    def list(conn,category_params) do
+      categories = Discussion.namelist_categories()
+      IO.inspect(categories)
+      render(conn, "list.json", categories: categories)
+    end
   
     def create(conn, %{"category" => category_params}) do
       with {:ok, %Category{} = category} <- Discussion.create_category(category_params) do

@@ -389,6 +389,14 @@ defmodule Loverage.Discussion do
     |> Repo.preload([posts: :categories])
   end
 
+    @doc """
+    カテゴリーの一覧を返却する。
+  """
+  def namelist_categories do
+    from(c in Category, order_by: c.id)
+    |> Repo.all
+  end
+
   @doc """
   カテゴリーを一見取得する。
   """

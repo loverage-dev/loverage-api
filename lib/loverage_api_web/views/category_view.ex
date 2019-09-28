@@ -6,11 +6,22 @@ defmodule LoverageWeb.CategoryView do
     def render("index.json", %{categories: categories}) do
       %{categories: render_many(categories, CategoryView, "category.json")}
     end
+
+    def render("list.json", %{categories: categories}) do
+      %{categories: render_many(categories, CategoryView, "category_list.json")}
+    end
   
     def render("show.json", %{category: category}) do
       %{category: render_one(category, CategoryView, "category.json")}
     end
-  
+
+    def render("category_list.json", %{category: category}) do
+      %{
+        id: category.id,
+        name: category.name
+       }
+    end
+
     def render("category.json", %{category: category}) do
       %{
         id: category.id,

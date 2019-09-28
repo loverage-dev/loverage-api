@@ -57,6 +57,7 @@ defmodule LoverageWeb.Router do
     get "/visuals", VisualController, :index
     get "/visuals/:id", VisualController, :show
     get "/categories/:id", CategoryController, :show
+    get "/category_list", CategoryController, :list
     get "/categories", CategoryController, :index
     post "/categories", CategoryController, :create
     post "/categories/:id/update", CategoryController, :update
