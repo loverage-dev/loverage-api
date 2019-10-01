@@ -29,6 +29,7 @@ defmodule LoverageWeb.HotTopicView do
   end
 
   def render("post_overview.json", %{hot_topic: hottopic}) do
+    category_name = if hottopic.posts.categories != nil, do: hottopic.posts.categories.name
     %{
       id: hottopic.post_id,
       origin_id: hottopic.id,
@@ -38,7 +39,6 @@ defmodule LoverageWeb.HotTopicView do
       ref_count: hottopic.posts.ref_count,
       img_fmt: hottopic.posts.img_fmt,
       img_base64: hottopic.posts.img_base64,
-      # category: hottopic.posts.category,
       tag_list: hottopic.posts.tag_list,
       votes_amount: hottopic.posts.reviews_amount,
       created_at: hottopic.posts.inserted_at,
@@ -46,12 +46,15 @@ defmodule LoverageWeb.HotTopicView do
       user_name: hottopic.posts.name,
       user_age: hottopic.posts.age,
       user_sex: hottopic.posts.sex,
-      img_tag: hottopic.posts.img_tag
+      img_tag: hottopic.posts.img_tag,
+      category_id: hottopic.posts.category_id,
+      category: category_name
     }
   end
 
   def render("post_detail.json", %{hot_topic: hottopic}) do
     reviews = hottopic.posts.reviews
+    category_name = if hottopic.posts.categories != nil, do: hottopic.posts.categories.name
 
     %{
       post: %{
@@ -62,12 +65,13 @@ defmodule LoverageWeb.HotTopicView do
         ref_count: hottopic.posts.ref_count,
         # TODO: IMAGEをひっぱってくるようにする。
         image_url: "sample",
-        category: hottopic.posts.category,
+        category: category_name,
         tag_list: hottopic.posts.tag_list,
         votes_amount: hottopic.posts.reviews_amount,
         created_at: hottopic.posts.inserted_at,
         updated_at: hottopic.posts.updated_at,
-        img_tag: hottopic.posts.img_tag
+        img_tag: hottopic.posts.img_tag,
+        category_id: hottopic.posts.category_id
       },
       user: %{
         name: hottopic.posts.name,

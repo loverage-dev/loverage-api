@@ -50,6 +50,7 @@ defmodule LoverageWeb.PostView do
   end
 
   def render("post_overview.json", %{post: post}) do
+    category_name = if post.categories != nil, do: post.categories.name
     %{
       id: post.id,
       content: post.content |> auto_ellipsis,
@@ -58,7 +59,8 @@ defmodule LoverageWeb.PostView do
       ref_count: post.ref_count,
       img_fmt: post.img_fmt,
       img_base64: post.img_base64,
-      category: post.category,
+      category_id: post.category_id,
+      category: category_name,
       tag_list: post.tag_list,
       votes_amount: post.reviews_amount,
       created_at: post.inserted_at,
@@ -73,6 +75,7 @@ defmodule LoverageWeb.PostView do
   def render("post_detail.json", %{post: post}) do
     reviews = post.reviews
     comments = post.comments
+    category_name = if post.categories != nil, do: post.categories.name
     %{
       post: %{
         id: post.id,
@@ -83,7 +86,8 @@ defmodule LoverageWeb.PostView do
         ref_count: post.ref_count,
         img_fmt: post.img_fmt,
         img_base64: post.img_base64,
-        # category: post.category,
+        category_id: post.category_id,
+        category: category_name,
         tag_list: post.tag_list,
         votes_amount: post.reviews_amount,
         created_at: post.inserted_at,
