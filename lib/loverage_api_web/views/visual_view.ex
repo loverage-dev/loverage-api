@@ -40,6 +40,7 @@ defmodule LoverageWeb.VisualView do
   end
 
   def render("post_overview.json", %{visual: visual}) do
+    category_name = if visual.posts.categories != nil, do: visual.posts.categories.name
     %{
       visual_id: visual.id,
       visual_type: visual.type,
@@ -60,12 +61,15 @@ defmodule LoverageWeb.VisualView do
       user_name: visual.posts.name,
       user_age: visual.posts.age,
       user_sex: visual.posts.sex,
-      img_tag: visual.posts.img_tag
+      img_tag: visual.posts.img_tag,
+      category: category_name,
+      category_id: visual.posts.category_id
     }
   end
 
   def render("post_detail.json", %{visual: visual}) do
     reviews = visual.posts.reviews
+    category_name = if visual.posts.categories != nil, do: visual.posts.categories.name
 
     %{
       post: %{
@@ -76,12 +80,13 @@ defmodule LoverageWeb.VisualView do
         ref_count: visual.posts.ref_count,
         # TODO: IMAGEをひっぱってくるようにする。
         image_url: "sample",
-        category: visual.posts.category,
+        category: category_name,
         tag_list: visual.posts.tag_list,
         votes_amount: visual.posts.reviews_amount,
         created_at: visual.posts.inserted_at,
         updated_at: visual.posts.updated_at,
-        img_tag: visual.posts.img_tag
+        img_tag: visual.posts.img_tag,
+        category_id: visual.posts.category_id
       },
       user: %{
         name: visual.posts.name,
