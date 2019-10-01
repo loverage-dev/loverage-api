@@ -29,6 +29,7 @@ defmodule LoverageWeb.RecommendationView do
   end
 
   def render("post_overview.json", %{recommendation: recommendation}) do
+    category_name = if recommendation.posts.categories != nil, do: recommendation.posts.categories.name
     %{
       id: recommendation.post_id,
       origin_id: recommendation.id,
@@ -46,12 +47,15 @@ defmodule LoverageWeb.RecommendationView do
       user_name: recommendation.posts.name,
       user_age: recommendation.posts.age,
       user_sex: recommendation.posts.sex,
-      img_tag: recommendation.posts.img_tag
+      img_tag: recommendation.posts.img_tag,
+      category_id: recommendation.posts.category_id,
+      category: category_name
     }
   end
 
   def render("post_detail.json", %{recommendation: recommendation}) do
     reviews = recommendation.posts.reviews
+    category_name = if recommendation.posts.categories != nil, do: recommendation.posts.categories.name
 
     %{
       post: %{
@@ -62,12 +66,13 @@ defmodule LoverageWeb.RecommendationView do
         ref_count: recommendation.posts.ref_count,
         # TODO: IMAGEをひっぱってくるようにする。
         image_url: "sample",
-        category: recommendation.posts.category,
+        category: category_name,
         tag_list: recommendation.posts.tag_list,
         votes_amount: recommendation.posts.reviews_amount,
         created_at: recommendation.posts.inserted_at,
         updated_at: recommendation.posts.updated_at,
-        img_tag: recommendation.posts.img_tag
+        img_tag: recommendation.posts.img_tag,
+        category_id: recommendation.posts.category_id
       },
       user: %{
         name: recommendation.posts.name,
