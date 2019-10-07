@@ -16,7 +16,6 @@ defmodule LoverageWeb.CategoryController do
 
     def list(conn,category_params) do
       categories = Discussion.namelist_categories()
-      IO.inspect(categories)
       render(conn, "list.json", categories: categories)
     end
   
