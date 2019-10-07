@@ -128,7 +128,6 @@ defmodule LoverageWeb.CommonController do
   end
 
   def aggrigate_exclude_post_ids(post_list, exclude_id_list) do
-    IO.inspect(post_list)
     tmp_list = [0]
     new_exclude_id_list = for n <- post_list, into: tmp_list, do: n.post_id
     all = new_exclude_id_list ++ exclude_id_list
