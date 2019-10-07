@@ -40,7 +40,8 @@ defmodule Loverage.Discussion do
       order_by: [desc: p.updated_at],
       preload: [:categories]
     )
-    |> filter_by_exclude(posts_params["exclude"])
+    |> filter_by_exclude_id(posts_params["not"])
+    |> filter_by_exclude_id_list(posts_params["exclude"])
     |> filter_by_age(posts_params["age"])
     |> filter_by_sex(posts_params["sex"])
     |> filter_by_target_word_in_content(posts_params["keyword"])
@@ -97,17 +98,31 @@ defmodule Loverage.Discussion do
   end
 
   @doc """
+    指定されたIDリストを除外フィルタリング（指定なし）
+  """
+  def filter_by_exclude_id_list(query, nil) do
+    query
+  end
+
+  @doc """
+    指定されたIDリストを除外フィルタリング（指定あり）
+  """
+  def filter_by_exclude_id_list(query, exclude_list) do
+    query |> where([p], not p.id in ^exclude_list)
+  end
+
+  @doc """
     指定されたIDを除外フィルタリング（指定なし）
   """
-  def filter_by_exclude(query, nil) do
+  def filter_by_exclude_id(query, nil) do
     query
   end
 
   @doc """
     指定されたIDを除外フィルタリング（指定あり）
   """
-  def filter_by_exclude(query, exclude_list) do
-    query |> where([p], not p.id in ^exclude_list)
+  def filter_by_exclude_id(query, id) do
+    query |> where([p], not p.id in [^id])
   end
 
   @doc """
