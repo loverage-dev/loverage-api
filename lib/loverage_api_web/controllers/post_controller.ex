@@ -24,7 +24,6 @@ defmodule LoverageWeb.PostController do
 
   def update_datetime(conn, %{"id" => id}) do
     with {:ok, %Post{} = post} <- Discussion.update_posts_updated_at(id) do
-      IO.inspect(post)
       render(conn, "up_to_pickup.json", post: post)
     end
   end

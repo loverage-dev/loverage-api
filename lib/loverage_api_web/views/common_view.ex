@@ -11,9 +11,6 @@ defmodule LoverageWeb.CommonView do
   alias LoverageWeb.RecommendationView
 
   def render("indexies.json", %{over_view: over_view}) do
-    IO.inspect("`````````````````````````````")
-    IO.inspect(over_view)
-    IO.inspect("`````````````````````````````")
     %{
       key_visual: render(PostView, "post_overview.json", post: over_view.key_visual),
       sub_visual: render(PostView, "post_overview.json", post: over_view.sub_visual),
