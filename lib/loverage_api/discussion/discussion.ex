@@ -66,6 +66,22 @@ defmodule Loverage.Discussion do
 
   end
 
+    @doc """
+    投稿記事を一括で取得する。【お気に入りが多いもの順】
+  """
+  def list_posts_ranking_favorite(posts_params) do
+
+    # 絞込条件
+    limit = posts_params["limit"]
+    offset = posts_params["offset"] || 0
+
+    # 検索
+    from(p in Post, limit: ^limit, offset: ^offset, order_by: [desc: p.favorite, desc: p.updated_at])
+    |> Repo.all()
+    |> Repo.preload(:categories)
+
+  end
+
   @doc """
     投稿記事を一括で取得する。【投票数が多いもの順】
   """

@@ -41,6 +41,11 @@ defmodule LoverageWeb.PostController do
     render(conn, "index.json", posts: rankings_view)
   end
 
+  def ranking_favorite(conn, posts_params) do
+    rankings_favorite = Discussion.list_posts_ranking_favorite(posts_params)
+    render(conn, "index.json", posts: rankings_favorite)
+  end
+
   def ranking_vote(conn, posts_params) do
     ranking_vote = Discussion.list_posts_ranking_vote(posts_params)
     render(conn, "index.json", posts: ranking_vote)

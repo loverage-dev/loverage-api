@@ -23,6 +23,7 @@ defmodule LoverageWeb.Router do
     get "/articles/:id", PostController, :show
     get "/ranking_view", PostController, :ranking_view
     get "/ranking_vote", PostController, :ranking_vote
+    get "/ranking_favorite", PostController, :ranking_favorite
     get "/hot_topics", HotTopicController, :index
     get "/hot_topics/:id", HotTopicController, :show
     get "/editors_picks", RecommendationController, :index
