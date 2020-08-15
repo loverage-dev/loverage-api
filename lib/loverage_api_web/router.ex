@@ -32,6 +32,7 @@ defmodule LoverageWeb.Router do
     get "/latest/:id", PostController, :show
     get "/featureds", FeaturedController, :index
     get "/featureds/:id", FeaturedController, :show
+    get "/articles/:id/favorite", PostController, :favorite
     post "/articles", PostController, :create
     post "/articles/:id/vote", ReviewController, :create
     post "/articles/:id/comment", CommentController, :create

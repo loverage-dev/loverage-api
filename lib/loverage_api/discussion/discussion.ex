@@ -240,6 +240,25 @@ defmodule Loverage.Discussion do
   end
 
   @doc """
+    お気に入り登録
+  """
+  def set_post_to_favorite(id) do
+    Repo.get!(Post, id)
+    |> increment_post_favorite_count
+    |> Repo.preload([:reviews, :comments, :categories])
+  end
+
+    @doc """
+    お気に入り数カウントアップ
+  """
+  def increment_post_favorite_count(post) do
+    from(p in Post, update: [inc: [favorite: 1]], where: p.id == ^post.id)
+    |> Repo.update_all([])
+    post
+  end
+
+
+  @doc """
     記事を投稿する
   """
   def create_post(attrs \\ %{}) do
