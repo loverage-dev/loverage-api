@@ -51,6 +51,7 @@ defmodule LoverageWeb.VisualView do
       opt1: visual.posts.opt1,
       opt2: visual.posts.opt2,
       ref_count: visual.posts.ref_count,
+      favorite: visual.posts.favorite,
       img_fmt: visual.posts.img_fmt,
       img_base64: visual.posts.img_base64,
       # category: visual.posts.category,
@@ -78,6 +79,7 @@ defmodule LoverageWeb.VisualView do
         opt1: visual.posts.opt1,
         opt2: visual.posts.opt2,
         ref_count: visual.posts.ref_count,
+        favorite: visual.posts.favorite,
         # TODO: IMAGEをひっぱってくるようにする。
         image_url: "sample",
         category: category_name,

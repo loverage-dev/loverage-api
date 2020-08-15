@@ -37,6 +37,7 @@ defmodule LoverageWeb.HotTopicView do
       opt1: hottopic.posts.opt1,
       opt2: hottopic.posts.opt2,
       ref_count: hottopic.posts.ref_count,
+      favorite: hottopic.posts.favorite,
       img_fmt: hottopic.posts.img_fmt,
       img_base64: hottopic.posts.img_base64,
       tag_list: hottopic.posts.tag_list,
@@ -63,6 +64,7 @@ defmodule LoverageWeb.HotTopicView do
         opt1: hottopic.posts.opt1,
         opt2: hottopic.posts.opt2,
         ref_count: hottopic.posts.ref_count,
+        favorite: hottopic.posts.favorite,
         # TODO: IMAGEをひっぱってくるようにする。
         image_url: "sample",
         category: category_name,
