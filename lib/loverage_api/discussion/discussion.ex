@@ -66,6 +66,22 @@ defmodule Loverage.Discussion do
 
   end
 
+    @doc """
+    投稿記事を一括で取得する。【お気に入りが多いもの順】
+  """
+  def list_posts_ranking_favorite(posts_params) do
+
+    # 絞込条件
+    limit = posts_params["limit"]
+    offset = posts_params["offset"] || 0
+
+    # 検索
+    from(p in Post, limit: ^limit, offset: ^offset, order_by: [desc: p.favorite, desc: p.updated_at])
+    |> Repo.all()
+    |> Repo.preload(:categories)
+
+  end
+
   @doc """
     投稿記事を一括で取得する。【投票数が多いもの順】
   """
@@ -222,6 +238,25 @@ defmodule Loverage.Discussion do
     |> Repo.update_all([])
     post
   end
+
+  @doc """
+    お気に入り登録
+  """
+  def set_post_to_favorite(id) do
+    Repo.get!(Post, id)
+    |> increment_post_favorite_count
+    |> Repo.preload([:reviews, :comments, :categories])
+  end
+
+    @doc """
+    お気に入り数カウントアップ
+  """
+  def increment_post_favorite_count(post) do
+    from(p in Post, update: [inc: [favorite: 1]], where: p.id == ^post.id)
+    |> Repo.update_all([])
+    post
+  end
+
 
   @doc """
     記事を投稿する

@@ -28,6 +28,11 @@ defmodule LoverageWeb.PostController do
     end
   end
 
+  def favorite(conn,%{"id" => id}) do
+    post = Discussion.set_post_to_favorite(id)
+    render(conn, "show.json", post: post)
+   end
+
   def set_eye_catching(conn,%{"post" => post_params}) do
     %{"id" => id, "tag" => tag} = post_params
     post = Discussion.get_post!(id)
@@ -39,6 +44,11 @@ defmodule LoverageWeb.PostController do
   def ranking_view(conn, posts_params) do
     rankings_view = Discussion.list_posts_ranking_view(posts_params)
     render(conn, "index.json", posts: rankings_view)
+  end
+
+  def ranking_favorite(conn, posts_params) do
+    rankings_favorite = Discussion.list_posts_ranking_favorite(posts_params)
+    render(conn, "index.json", posts: rankings_favorite)
   end
 
   def ranking_vote(conn, posts_params) do

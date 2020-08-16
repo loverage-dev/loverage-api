@@ -37,6 +37,7 @@ defmodule LoverageWeb.RecommendationView do
       opt1: recommendation.posts.opt1,
       opt2: recommendation.posts.opt2,
       ref_count: recommendation.posts.ref_count,
+      favorite: recommendation.posts.favorite,
       img_fmt: recommendation.posts.img_fmt,
       img_base64: recommendation.posts.img_base64,
       # category: recommendation.posts.category,
@@ -64,6 +65,7 @@ defmodule LoverageWeb.RecommendationView do
         opt1: recommendation.posts.opt1,
         opt2: recommendation.posts.opt2,
         ref_count: recommendation.posts.ref_count,
+        favorite: recommendation.posts.favorite,
         # TODO: IMAGEをひっぱってくるようにする。
         image_url: "sample",
         category: category_name,
