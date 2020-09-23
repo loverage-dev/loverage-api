@@ -45,7 +45,8 @@ defmodule LoverageWeb.CommentView do
       selected_opt: comment.selected_opt,
       user_age: comment.age,
       user_sex: comment.sex,
-      created_at: comment.inserted_at
+      created_at: comment.inserted_at,
+      stars: comment.stars
     }
   end
 end

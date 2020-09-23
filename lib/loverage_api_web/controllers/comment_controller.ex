@@ -33,6 +33,18 @@ defmodule LoverageWeb.CommentController do
       render(conn, "updated.json", comment: comment)
     end
   end
+
+  def favorite(conn, %{"id" => id}) do
+    Discussion.increment_comment_stars(id)
+    comment = Discussion.get_comment!(id)
+    render(conn, "show.json", comment: comment)
+  end
+
+  def unfavorite(conn, %{"id" => id}) do
+    Discussion.decrement_comment_stars(id)
+    comment = Discussion.get_comment!(id)
+    render(conn, "show.json", comment: comment)
+  end
   
   def delete(conn, %{"id" => id}) do
     comment = Discussion.get_comment!(id)

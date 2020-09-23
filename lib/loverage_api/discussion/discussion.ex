@@ -243,21 +243,37 @@ defmodule Loverage.Discussion do
     お気に入り登録
   """
   def set_post_to_favorite(id) do
+    increment_post_favorite_count(id)
     Repo.get!(Post, id)
-    |> increment_post_favorite_count
+    |> Repo.preload([:reviews, :comments, :categories])
+  end
+
+    @doc """
+    お気に入り解除
+  """
+  def unset_post_to_favorite(id) do
+    decrement_post_favorite_count(id)
+    Repo.get!(Post, id)
     |> Repo.preload([:reviews, :comments, :categories])
   end
 
     @doc """
     お気に入り数カウントアップ
   """
-  def increment_post_favorite_count(post) do
-    from(p in Post, update: [inc: [favorite: 1]], where: p.id == ^post.id)
-    |> Repo.update_all([])
-    post
+  def increment_post_favorite_count(id) do
+    from(p in Post,  where: p.id == ^id)
+    |> Repo.update_all(inc: [favorite: 1])
   end
 
+    @doc """
+    お気に入り数カウントダウン
+  """
+  def decrement_post_favorite_count(id) do
+    from(p in Post,  where: p.id == ^id)
+    |> Repo.update_all(inc: [favorite: -1])
+  end
 
+  
   @doc """
     記事を投稿する
   """
@@ -388,9 +404,24 @@ defmodule Loverage.Discussion do
 
     from(c in Comment, limit: ^limit, offset: ^offset, order_by: c.updated_at)
     |> Repo.all()
-
+    
   end
 
+  @doc """
+    コメントのお気に入りカウントアップ
+  """
+  def increment_comment_stars(id) do
+    from(c in Comment,  where: c.id == ^id)
+    |> Repo.update_all(inc: [stars: 1])
+  end
+
+  @doc """
+    コメントのお気に入りカウントダウン
+  """
+  def decrement_comment_stars(id) do
+    from(c in Comment,  where: c.id == ^id)
+    |> Repo.update_all(inc: [stars: -1])
+  end
   @doc """
     コメントを1件取得する。
   """
