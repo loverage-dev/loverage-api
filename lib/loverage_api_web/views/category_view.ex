@@ -18,7 +18,8 @@ defmodule LoverageWeb.CategoryView do
     def render("category_list.json", %{category: category}) do
       %{
         id: category.id,
-        name: category.name
+        name: category.name,
+        description: category.description
        }
     end
 
@@ -26,6 +27,7 @@ defmodule LoverageWeb.CategoryView do
       %{
         id: category.id,
         name: category.name,
+        description: category.description,
         posts: render_many(category.posts, PostView, "post_overview.json")
        }
     end
@@ -34,6 +36,7 @@ defmodule LoverageWeb.CategoryView do
       %{
         id: category.id,
         name: category.name,
+        description: category.description,
         message: "categoryへ登録しました。"
       }
     end

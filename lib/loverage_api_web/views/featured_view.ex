@@ -37,6 +37,7 @@ defmodule LoverageWeb.FeaturedView do
       opt1: featured.posts.opt1,
       opt2: featured.posts.opt2,
       ref_count: featured.posts.ref_count,
+      favorite: featured.posts.favorite,
       img_fmt: featured.posts.img_fmt,
       img_base64: featured.posts.img_base64,
       # category: featured.posts.category,
@@ -64,6 +65,7 @@ defmodule LoverageWeb.FeaturedView do
         opt1: featured.posts.opt1,
         opt2: featured.posts.opt2,
         ref_count: featured.posts.ref_count,
+        favorite: featured.posts.favorite,
         # TODO: IMAGEをひっぱってくるようにする。
         image_url: "sample",
         category: category_name,
