@@ -21,6 +21,7 @@ defmodule LoverageWeb.Router do
     get "/overview", CommonController, :indexies
     get "/articles", PostController, :index
     get "/articles/:id", PostController, :show
+    get "/articles/:id/noref", PostController, :show_no_count_ref
     get "/ranking_view", PostController, :ranking_view
     get "/ranking_vote", PostController, :ranking_vote
     get "/ranking_favorite", PostController, :ranking_favorite

@@ -222,6 +222,14 @@ defmodule Loverage.Discussion do
     |> Repo.preload([:reviews, :comments, :categories])
   end
 
+    @doc """
+    記事を1件取得する(参照回数をカウントしない)
+  """
+  def get_post_no_count_ref(id) do
+    Repo.get!(Post, id)
+    |> Repo.preload([:reviews, :comments, :categories])
+  end
+
    @doc """
     記事を1件取得する
   """
