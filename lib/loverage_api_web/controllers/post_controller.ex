@@ -80,6 +80,12 @@ defmodule LoverageWeb.PostController do
     render(conn, "show.json", post: post)
   end
 
+  def show_no_count_ref(conn, %{"id" => id}) do
+    post = Discussion.get_post_no_count_ref(id)
+    render(conn, "show.json", post: post)
+  end
+  
+
   def delete(conn, %{"id" => id}) do
     post = Discussion.get_post!(id)
     with {:ok, %Post{}} <- Discussion.delete_post(post) do
