@@ -4,4 +4,8 @@ defmodule LoverageWeb.ViewHelpers do
     sliced = content |> String.slice(0, 29)
     sliced <> "…"
   end
+
+  def sunitize_html(content) do
+    sunitized = content |> String.replace(~r/<("[^"]*"|'[^']*'|[^'">])*>/,"")
+  end
 end

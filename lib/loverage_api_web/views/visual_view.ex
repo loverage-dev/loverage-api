@@ -41,13 +41,14 @@ defmodule LoverageWeb.VisualView do
 
   def render("post_overview.json", %{visual: visual}) do
     category_name = if visual.posts.categories != nil, do: visual.posts.categories.name
+    title = if visual.posts.title == nil or visual.posts.title == "", do: visual.posts.content |> sunitize_html |> auto_ellipsis, else: visual.posts.title
     %{
       visual_id: visual.id,
       visual_type: visual.type,
       visual_day_of_week_no: visual.day_of_week_no, 
       post_id: visual.post_id,
       origin_id: visual.id,
-      content: visual.posts.content |> auto_ellipsis,
+      content: title,
       opt1: visual.posts.opt1,
       opt2: visual.posts.opt2,
       ref_count: visual.posts.ref_count,
@@ -71,10 +72,12 @@ defmodule LoverageWeb.VisualView do
   def render("post_detail.json", %{visual: visual}) do
     reviews = visual.posts.reviews
     category_name = if visual.posts.categories != nil, do: visual.posts.categories.name
+    title = if visual.posts.title == nil or visual.posts.title == "", do: visual.posts.content |> sunitize_html |> auto_ellipsis, else: visual.posts.title
 
     %{
       post: %{
         id: visual.post_id,
+        title: title,
         content: visual.posts.content,
         opt1: visual.posts.opt1,
         opt2: visual.posts.opt2,
