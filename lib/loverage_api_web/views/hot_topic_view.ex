@@ -30,10 +30,12 @@ defmodule LoverageWeb.HotTopicView do
 
   def render("post_overview.json", %{hot_topic: hottopic}) do
     category_name = if hottopic.posts.categories != nil, do: hottopic.posts.categories.name
+    title = if hottopic.posts.title == nil or hottopic.posts.title == "", do: hottopic.posts.content |> sunitize_html |> auto_ellipsis, else: hottopic.posts.title
+
     %{
       id: hottopic.post_id,
       origin_id: hottopic.id,
-      content: hottopic.posts.content |> auto_ellipsis,
+      content: title,
       opt1: hottopic.posts.opt1,
       opt2: hottopic.posts.opt2,
       ref_count: hottopic.posts.ref_count,
@@ -56,10 +58,12 @@ defmodule LoverageWeb.HotTopicView do
   def render("post_detail.json", %{hot_topic: hottopic}) do
     reviews = hottopic.posts.reviews
     category_name = if hottopic.posts.categories != nil, do: hottopic.posts.categories.name
+    title = if hottopic.posts.title == nil or hottopic.posts.title == "", do: hottopic.posts.content |> sunitize_html |> auto_ellipsis, else: hottopic.posts.title
 
     %{
       post: %{
         id: hottopic.post_id,
+        title: title,
         content: hottopic.posts.content,
         opt1: hottopic.posts.opt1,
         opt2: hottopic.posts.opt2,

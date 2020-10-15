@@ -15,6 +15,11 @@ defmodule LoverageWeb.PostController do
     render(conn, "index.json", posts: posts)
   end
 
+  def index_random(conn,posts_params) do
+    posts = Discussion.list_posts_at_random(posts_params)
+    render(conn, "index.json", posts: posts)
+  end
+
   def update(conn, %{"id" => id, "post" => post_params}) do
     post = Discussion.get_post!(id)
     with {:ok, %Post{} = post} <- Discussion.update_post(post, post_params) do
@@ -79,6 +84,12 @@ defmodule LoverageWeb.PostController do
     post = Discussion.get_post!(id)
     render(conn, "show.json", post: post)
   end
+
+  def show_no_count_ref(conn, %{"id" => id}) do
+    post = Discussion.get_post_no_count_ref(id)
+    render(conn, "show.json", post: post)
+  end
+  
 
   def delete(conn, %{"id" => id}) do
     post = Discussion.get_post!(id)
