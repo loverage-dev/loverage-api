@@ -15,6 +15,11 @@ defmodule LoverageWeb.PostController do
     render(conn, "index.json", posts: posts)
   end
 
+  def index_random(conn,posts_params) do
+    posts = Discussion.list_posts_at_random(posts_params)
+    render(conn, "index.json", posts: posts)
+  end
+
   def update(conn, %{"id" => id, "post" => post_params}) do
     post = Discussion.get_post!(id)
     with {:ok, %Post{} = post} <- Discussion.update_post(post, post_params) do

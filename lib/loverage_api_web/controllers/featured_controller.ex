@@ -15,6 +15,11 @@ defmodule LoverageWeb.FeaturedController do
     render(conn, "index.json", featureds: featureds)
   end
 
+  def index_random(conn,featureds_params) do
+    featureds = Pickup.list_featureds_at_random(featureds_params)
+    render(conn, "index.json", featureds: featureds)
+  end
+
   def create(conn, %{"featured" => featureds_params}) do
     case Pickup.create_featured(featureds_params) do
       # 成功時
