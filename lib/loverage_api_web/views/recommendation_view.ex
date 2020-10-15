@@ -30,10 +30,11 @@ defmodule LoverageWeb.RecommendationView do
 
   def render("post_overview.json", %{recommendation: recommendation}) do
     category_name = if recommendation.posts.categories != nil, do: recommendation.posts.categories.name
+    title = if recommendation.posts.title == nil or recommendation.posts.title == "", do: recommendation.posts.content |> sunitize_html |> auto_ellipsis, else: recommendation.posts.title
     %{
       id: recommendation.post_id,
       origin_id: recommendation.id,
-      content: recommendation.posts.content |> auto_ellipsis,
+      content: title,
       opt1: recommendation.posts.opt1,
       opt2: recommendation.posts.opt2,
       ref_count: recommendation.posts.ref_count,
@@ -57,10 +58,12 @@ defmodule LoverageWeb.RecommendationView do
   def render("post_detail.json", %{recommendation: recommendation}) do
     reviews = recommendation.posts.reviews
     category_name = if recommendation.posts.categories != nil, do: recommendation.posts.categories.name
+    title = if recommendation.posts.title == nil or recommendation.posts.title == "", do: recommendation.posts.content |> sunitize_html |> auto_ellipsis, else: recommendation.posts.title
 
     %{
       post: %{
         id: recommendation.post_id,
+        title: title,
         content: recommendation.posts.content,
         opt1: recommendation.posts.opt1,
         opt2: recommendation.posts.opt2,

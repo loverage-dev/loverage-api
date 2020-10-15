@@ -15,6 +15,11 @@ defmodule LoverageWeb.RecommendationController do
     render(conn, "index.json", recommendations: recommendations)
   end
 
+  def index_random(conn,recommendations_params) do
+    recommendations = Pickup.list_recommendations_at_random(recommendations_params)
+    render(conn, "index.json", recommendations: recommendations)
+  end
+
   def create(conn, %{"editors_pick" => recommendations_params}) do
     case Pickup.create_recommendation(recommendations_params) do
       # 成功時

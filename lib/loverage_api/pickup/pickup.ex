@@ -48,6 +48,30 @@ defmodule Loverage.Pickup do
     |> Repo.all()
   end
 
+   @doc """
+    HotTopicの一覧をランダム順で返却する。【引数あり】
+  """
+  def list_hottopics_at_random(hottopics_params) do
+
+    # 絞込条件
+    limit = hottopics_params["limit"] || @default_hottopics_pagination_limit
+    offset = hottopics_params["offset"] || 0
+
+    # 検索
+    (
+      from h in HotTopic,
+        limit: ^limit,
+        offset: ^offset,
+        join: p in Post, where: h.post_id == p.id, 
+        order_by: fragment("RANDOM()"),
+        left_join: posts in assoc(h, :posts),
+        left_join: category in assoc(posts, :categories),
+        preload: [posts: {posts, categories: category}]
+    )
+    |> filter_by_exclude(hottopics_params["exclude"])
+    |> Repo.all()
+  end
+
   @doc """
     指定されたIDを除外フィルタリング（指定なし）
   """
@@ -150,6 +174,28 @@ defmodule Loverage.Pickup do
   end
 
   @doc """
+    おすすめ一覧をランダム順で取得する。【引数あり】
+  """
+  def list_recommendations_at_random(recos_params) do
+    # 絞込条件
+    limit = recos_params["limit"] || @default_recommends_pagination_limit
+    offset = recos_params["offset"] || 0
+
+    # 検索
+    (
+      from r in Recommendation,
+        limit: ^limit,
+        offset: ^offset,
+        join: p in Post, where: r.post_id == p.id,
+        order_by: fragment("RANDOM()"),
+        left_join: posts in assoc(r, :posts),
+        left_join: category in assoc(posts, :categories),
+        preload: [posts: {posts, categories: category}]
+    )
+    |> filter_by_exclude(recos_params["exclude"])
+    |> Repo.all()
+  end
+  @doc """
     おすすめ1件を取得する。
   """
   def get_recommendation!(id) do
@@ -229,6 +275,30 @@ defmodule Loverage.Pickup do
         offset: ^offset,
         join: p in Post, where: f.post_id == p.id,
         order_by: [desc: p.updated_at],
+        left_join: posts in assoc(f, :posts),
+        left_join: category in assoc(posts, :categories),
+        preload: [posts: {posts, categories: category}]
+    )
+    |> filter_by_exclude(featureds_params["exclude"])
+    |> Repo.all()
+  end
+
+    @doc """
+    Featured一覧をランダム順で取得する。【引数あり】
+  """
+  def list_featureds_at_random(featureds_params) do
+
+    # 絞込条件
+    limit = featureds_params["limit"] || @default_featureds_pagination_limit
+    offset = featureds_params["offset"] || 0
+
+    # 検索
+    (
+      from f in Featured,
+        limit: ^limit,
+        offset: ^offset,
+        join: p in Post, where: f.post_id == p.id,
+        order_by: fragment("RANDOM()"),
         left_join: posts in assoc(f, :posts),
         left_join: category in assoc(posts, :categories),
         preload: [posts: {posts, categories: category}]

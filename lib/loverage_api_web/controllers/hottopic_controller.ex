@@ -14,6 +14,11 @@ defmodule LoverageWeb.HotTopicController do
     render(conn, "index.json", hot_topics: hottopics)
   end
 
+  def index_random(conn,hot_topics_params) do
+    hottopics = Pickup.list_hottopics_at_random(hot_topics_params)
+    render(conn, "index.json", hot_topics: hottopics)
+  end
+
   def create(conn, %{"hot_topic" => hot_topic_params}) do
     case Pickup.create_hot_topic(hot_topic_params) do
       # 成功時

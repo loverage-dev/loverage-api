@@ -11,7 +11,8 @@ defmodule Loverage.Discussion.Post do
     field :name, :string, default: "Unknown"    #名前
     field :age, :string                         #年齢（e_10s/l_10s/e_20s/l_20s/e_30s/l_30s/e_40s/l_40s/e_50s/l_50s/e_60s/l_60s）
     field :sex, :string                         #性別（m/f/o）
-    field :content, :string                    #本文
+    field :title, :string                       #タイトル
+    field :content, :string                     #本文
     field :opt1, :string, default: "アリ"       #選択肢①
     field :opt2, :string, default: "ナシ"       #選択肢②
     field :tag_list, {:array, :string} , default: []   #タグ
@@ -37,7 +38,7 @@ defmodule Loverage.Discussion.Post do
   @doc false
   def changeset(post, attrs) do
     post
-    |> cast(attrs, [:name, :sex, :age, :content, :opt1, :opt2, :tag_list, :category_id, :ref_count, :favorite, :img_fmt, :img_base64, :img_tag])
+    |> cast(attrs, [:name, :sex, :age, :title, :content, :opt1, :opt2, :tag_list, :category_id, :ref_count, :favorite, :img_fmt, :img_base64, :img_tag])
     |> validate_required([:sex, :age, :content])
     |> validate_inclusion(:age, ["e_10s", "l_10s", "e_20s", "l_20s","e_30s", "l_30s","e_40s", "l_40s","e_50s", "l_50s","e_60s", "l_60s"])
     |> validate_inclusion(:sex, ["m", "f", "o"])

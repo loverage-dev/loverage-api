@@ -20,18 +20,22 @@ defmodule LoverageWeb.Router do
     # =============    一般向けAPI　　=========================
     get "/overview", CommonController, :indexies
     get "/articles", PostController, :index
+    get "/articles/random", PostController, :index_random
     get "/articles/:id", PostController, :show
     get "/articles/:id/noref", PostController, :show_no_count_ref
     get "/ranking_view", PostController, :ranking_view
     get "/ranking_vote", PostController, :ranking_vote
     get "/ranking_favorite", PostController, :ranking_favorite
     get "/hot_topics", HotTopicController, :index
+    get "/hot_topics/random", HotTopicController, :index_random
     get "/hot_topics/:id", HotTopicController, :show
     get "/editors_picks", RecommendationController, :index
+    get "/editors_picks/random", RecommendationController, :index_random
     get "/editors_picks/:id", RecommendationController, :show
     get "/latest", PostController, :index_latest
     get "/latest/:id", PostController, :show
     get "/featureds", FeaturedController, :index
+    get "/featureds/random", FeaturedController, :index_random
     get "/featureds/:id", FeaturedController, :show
     get "/comments/:id/favorite", CommentController, :favorite
     get "/comments/:id/unfavorite", CommentController, :unfavorite
@@ -53,7 +57,7 @@ defmodule LoverageWeb.Router do
     get "/votes/:id", ReviewController, :show
     post "/comments/:id", CommentController, :update
     get "/comments/:id", CommentController, :show
-    delete "comments/:id", CommentController, :delete
+    delete "/comments/:id", CommentController, :delete
     get "/comments", CommentController, :index
     post "/articles/:id/update", PostController, :update
     post "/articles/set_eye_catching", PostController, :set_eye_catching

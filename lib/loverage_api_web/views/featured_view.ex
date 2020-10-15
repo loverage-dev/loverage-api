@@ -30,10 +30,12 @@ defmodule LoverageWeb.FeaturedView do
 
   def render("post_overview.json", %{featured: featured}) do
     category_name = if featured.posts.categories != nil, do: featured.posts.categories.name
+    title = if featured.posts.title == nil or featured.posts.title == "", do: featured.posts.content |> sunitize_html |> auto_ellipsis, else: featured.posts.title
+
     %{
       id: featured.post_id,
       origin_id: featured.id,
-      content: featured.posts.content |> auto_ellipsis,
+      content: title,
       opt1: featured.posts.opt1,
       opt2: featured.posts.opt2,
       ref_count: featured.posts.ref_count,
@@ -57,10 +59,12 @@ defmodule LoverageWeb.FeaturedView do
   def render("post_detail.json", %{featured: featured}) do
     reviews = featured.posts.reviews
     category_name = if featured.posts.categories != nil, do: featured.posts.categories.name
+    title = if featured.posts.title == nil or featured.posts.title == "", do: featured.posts.content |> sunitize_html |> auto_ellipsis, else: featured.posts.title
 
     %{
       post: %{
         id: featured.post_id,
+        title: title,
         content: featured.posts.content,
         opt1: featured.posts.opt1,
         opt2: featured.posts.opt2,

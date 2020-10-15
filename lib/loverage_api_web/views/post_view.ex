@@ -17,19 +17,21 @@ defmodule LoverageWeb.PostView do
   end
 
   def render("created.json", %{post: post}) do
+    title = if post.title == nil or post.title == "", do: post.content |> sunitize_html |> auto_ellipsis, else: post.title
     %{
       id: post.id,
       created_at: post.inserted_at,
-      title: post.content |> auto_ellipsis,
+      title: title,
       message: "投稿を登録しました。"
     }
   end
 
   def render("updated.json",%{post: post}) do
+    title = if post.title == nil or post.title == "", do: post.content |> sunitize_html |> auto_ellipsis, else: post.title
     %{
       id: post.id,
       updated_at: post.updated_at,
-      title: post.content |> auto_ellipsis,
+      title: title,
       message: "投稿を更新しました。"
     }
   end
@@ -51,9 +53,11 @@ defmodule LoverageWeb.PostView do
 
   def render("post_overview.json", %{post: post}) do
     category_name = if post.categories != nil, do: post.categories.name
+    title = if post.title == nil or post.title == "", do: post.content |> sunitize_html |> auto_ellipsis, else: post.title
+
     %{
       id: post.id,
-      content: post.content |> auto_ellipsis,
+      content: title,
       opt1: post.opt1,
       opt2: post.opt2,
       ref_count: post.ref_count,
@@ -77,10 +81,11 @@ defmodule LoverageWeb.PostView do
     reviews = post.reviews
     comments = post.comments
     category_name = if post.categories != nil, do: post.categories.name
+    title = if post.title == nil or post.title == "", do: post.content |> sunitize_html |> auto_ellipsis, else: post.title
     %{
       post: %{
         id: post.id,
-        title: post.content |> auto_ellipsis,
+        title: title,
         content: post.content,
         opt1: post.opt1,
         opt2: post.opt2,

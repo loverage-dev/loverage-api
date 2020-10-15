@@ -50,6 +50,35 @@ defmodule Loverage.Discussion do
     |> Repo.all()
 
   end
+
+    @doc """
+    投稿記事をランダム順でで取得する。【引数あり】
+  """
+  def list_posts_at_random(posts_params) do
+
+    # 絞込条件
+    limit = posts_params["limit"] || @default_posts_pagination_limit
+    offset = posts_params["offset"] || 0
+
+    # 検索
+    (
+      from p in Post,
+      limit: ^limit,
+      offset: ^offset,
+      order_by: fragment("RANDOM()"),
+      preload: [:categories]
+    )
+    |> filter_by_exclude_id(posts_params["not"])
+    |> filter_by_exclude_id_list(posts_params["exclude"])
+    |> filter_by_age(posts_params["age"])
+    |> filter_by_sex(posts_params["sex"])
+    |> filter_by_target_word_in_content(posts_params["keyword"])
+    |> filter_by_tags(posts_params["tag"])
+    |> filter_by_category(posts_params["category"])
+    |> Repo.all()
+
+  end
+
   @doc """
     投稿記事を一括で取得する。【閲覧数が多いもの順】
   """
